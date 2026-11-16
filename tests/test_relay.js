@@ -1,0 +1,10 @@
+const http=require('http');const {spawn}=require('child_process');
+const srv=spawn('node',[require('path').join(__dirname,'..','relay','server.js')],{env:{...process.env,PORT:'8801'}});
+const get=(p,ms=0)=>new Promise(r=>{const q=http.get({port:8801,path:p},res=>{let b='';res.on('data',c=>b+=c);res.on('end',()=>r(res.statusCode))});q.on('error',()=>r(0))});
+const post=(body)=>new Promise(r=>{const q=http.request({port:8801,path:'/v1/send',method:'POST',headers:{'content-type':'text/plain'}},res=>{res.resume();res.on('end',()=>r(res.statusCode))});q.on('error',()=>r(0));q.end(body)});
+(async()=>{await new Promise(r=>setTimeout(r,600));
+ const codes={};
+ console.log('ping flood',JSON.stringify(codes));
+ console.log('invalid json ->',await post('{{{'));
+ console.log('big body ->',await post('x'.repeat(70000)));
+ srv.kill();})();

@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Outernet",
+  "version": "0.2.0",
+  "description": "Öffnet von jeder Webseite aus die passende Outernet-Unterhaltung in der App. Ohne Server.",
+  "permissions": ["storage", "contextMenus", "activeTab"],
+  "action": { "default_title": "Mit Outernet besprechen" },
+  "background": { "service_worker": "background.js", "scripts": ["background.js"] },
+  "options_ui": { "page": "options.html", "open_in_tab": true },
+  "browser_specific_settings": { "gecko": { "id": "outernet@example.org" } }
+}

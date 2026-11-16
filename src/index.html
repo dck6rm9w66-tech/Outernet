@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>{{early.js}}</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src http: https: ws: wss:; frame-src about:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#6d28d9">
+<title>Outernet</title>
+<style>{{base.css}}</style>
+</head>
+<body>
+<noscript><div style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;overflow:auto;background:#f4f7f6;color:#111;font:16px/1.55 system-ui,sans-serif;padding:20px"><div style="max-width:520px;margin:0 auto;background:#fff;border-radius:20px;padding:22px;box-shadow:0 4px 24px #0002">
+<h2 style="margin:0 0 8px">Outernet braucht JavaScript</h2>
+<p>Dein Anzeigeprogramm (zum Beispiel die Vorschau in Dateien, Mail oder einem Messenger) führt keine Skripte aus. Die App selbst ist in Ordnung. So öffnest du sie richtig:</p>
+<ol><li><b>Computer:</b> Datei doppelklicken. Sie öffnet sich in Chrome, Edge, Firefox oder Safari.</li><li><b>Android:</b> Datei mit Chrome öffnen.</li><li><b>iPhone / iPad:</b> Datei am Computer öffnen oder auf einen Webspace laden (zum Beispiel GitHub Pages) und die Adresse in Safari öffnen.</li></ol>
+<hr style="border:0;border-top:1px solid #ddd;margin:16px 0">
+<h2 style="margin:0 0 8px">Outernet needs JavaScript</h2>
+<p>Your viewer (for example the preview in Files, Mail or a messenger) does not run scripts. The app itself is fine. How to open it properly:</p>
+<ol><li><b>Computer:</b> double-click the file. It opens in Chrome, Edge, Firefox or Safari.</li><li><b>Android:</b> open the file with Chrome.</li><li><b>iPhone / iPad:</b> open the file on a computer, or upload it to a web host (for example GitHub Pages) and open the address in Safari.</li></ol>
+</div></div></noscript>
+
+<div class="shell">
+  <nav class="rail" aria-label="Hauptmenü" id="rail"></nav>
+  <div style="flex:1;min-width:0">
+    <main id="main" tabindex="-1"></main>
+  </div>
+</div>
+<nav class="tabbar" aria-label="Hauptmenü" id="tabbar"></nav>
+<dialog id="dlg" aria-modal="true"></dialog>
+<div id="live" class="sr" role="status" aria-live="polite"></div>
+<div id="ob" class="ob" hidden></div>
+
+<script>{{vendor/qrcode-generator.js}}</script>
+<script>{{vendor/jsqr.js}}</script>
+<script>{{app.js}}</script>
+</body>
+</html>
