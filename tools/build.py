@@ -7,6 +7,7 @@ Aufruf:  python3 tools/build.py            -> schreibt web/app.html
 import json, re, sys, pathlib
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC, OUT = ROOT / 'src', ROOT / 'web' / 'app.html'
+EXT_FILES = ['manifest.json', 'background.js', 'options.html', 'options.js']  # werden für den Plugin-Download in die App eingebettet
 
 def build():
     tpl = (SRC / 'index.html').read_text(encoding='utf-8')
@@ -17,6 +18,8 @@ def build():
             for k, v in tr.items():
                 assert isinstance(v, list) and len(v) == 5 and all(isinstance(x, str) for x in v), 'Übersetzung unvollständig: ' + k
             body = body.replace('/*@TR@*/', json.dumps(tr, ensure_ascii=False), 1)
+            ext = {f: (ROOT / 'extension' / f).read_text(encoding='utf-8') for f in EXT_FILES}
+            body = body.replace('/*@EXT@*/', json.dumps(ext, ensure_ascii=False).replace('</', '<\\/'), 1)
         return body
     return re.sub(r'\{\{([a-zA-Z0-9_./-]+)\}\}', inc, tpl)
 

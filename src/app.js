@@ -10,7 +10,7 @@ const unhex=h=>Uint8Array.from(h.match(/../g)||[],x=>parseInt(x,16));
 const b64u=s=>{s=s.replace(/-/g,'+').replace(/_/g,'/');return Uint8Array.from(atob(s+'='.repeat((4-s.length%4)%4)),c=>c.charCodeAt(0))};
 
 /* ===== Symbole ===== */
-const P={shield:'<path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>',people:'<circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.6"/><path d="M3 20c.4-3.6 3-5.6 6-5.6s5.6 2 6 5.6M15.5 14.6c3 0 5 1.6 5.5 4.4"/>',hash:'<path d="M5 9h14M5 15h14M10 3L8 21M16 3l-2 18"/>',wifi:'<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10.5 10.5 0 0 1 14 0M8.5 16a5.5 5.5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/>',qr:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v1M14 21h2M19 18v3h2"/>',compass:'<circle cx="12" cy="12" r="10"/><path d="M16.2 7.8l-2.1 6.3-6.3 2.1 2.1-6.3z"/>',plus:'<path d="M12 5v14M5 12h14"/>',share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',up:'<path d="M12 19V5M5 12l7-7 7 7"/>',down:'<path d="M12 5v14M5 12l7 7 7-7"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M8.2 13.5L7 22l5-3 5 3-1.2-8.5"/>',image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/>',link:'<path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/>',clip:'<path d="M21 11l-9 9a5 5 0 01-7-7l9-9a3.5 3.5 0 015 5l-9 9a2 2 0 01-3-3l8-8"/>',mic:'<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4"/>',pin:'<path d="M12 22s7-6.5 7-12a7 7 0 00-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>',upload:'<path d="M12 15V3M7 8l5-5 5 5M5 15v4a2 2 0 002 2h10a2 2 0 002-2v-4"/>',dl:'<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>',x:'<path d="M18 6L6 18M6 6l12 12"/>',back:'<path d="M15 18l-6-6 6-6"/>',msg:'<path d="M21 12a8 8 0 01-11.5 7.2L3 21l1.8-6A8 8 0 1121 12z"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/>',help:'<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/>',check:'<path d="M5 12l5 5 9-10"/>',flame:'<path d="M12 22c4 0 7-3 7-7 0-3-2-5-3-7-1 2-2 3-4 3 0-4-2-6-3-8-2 3-4 6-4 10 0 5 3 9 7 9z"/>',file:'<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8zM14 3v5h5"/>',lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/>'};
+const P={bookmark:'<path d="M6 3h12v18l-6-4-6 4z"/>',shield:'<path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>',people:'<circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.6"/><path d="M3 20c.4-3.6 3-5.6 6-5.6s5.6 2 6 5.6M15.5 14.6c3 0 5 1.6 5.5 4.4"/>',hash:'<path d="M5 9h14M5 15h14M10 3L8 21M16 3l-2 18"/>',wifi:'<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10.5 10.5 0 0 1 14 0M8.5 16a5.5 5.5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/>',qr:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v1M14 21h2M19 18v3h2"/>',compass:'<circle cx="12" cy="12" r="10"/><path d="M16.2 7.8l-2.1 6.3-6.3 2.1 2.1-6.3z"/>',plus:'<path d="M12 5v14M5 12h14"/>',share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',up:'<path d="M12 19V5M5 12l7-7 7 7"/>',down:'<path d="M12 5v14M5 12l7 7 7-7"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M8.2 13.5L7 22l5-3 5 3-1.2-8.5"/>',image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/>',link:'<path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/>',clip:'<path d="M21 11l-9 9a5 5 0 01-7-7l9-9a3.5 3.5 0 015 5l-9 9a2 2 0 01-3-3l8-8"/>',mic:'<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4"/>',pin:'<path d="M12 22s7-6.5 7-12a7 7 0 00-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>',upload:'<path d="M12 15V3M7 8l5-5 5 5M5 15v4a2 2 0 002 2h10a2 2 0 002-2v-4"/>',dl:'<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>',x:'<path d="M18 6L6 18M6 6l12 12"/>',back:'<path d="M15 18l-6-6 6-6"/>',msg:'<path d="M21 12a8 8 0 01-11.5 7.2L3 21l1.8-6A8 8 0 1121 12z"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/>',help:'<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/>',check:'<path d="M5 12l5 5 9-10"/>',flame:'<path d="M12 22c4 0 7-3 7-7 0-3-2-5-3-7-1 2-2 3-4 3 0-4-2-6-3-8-2 3-4 6-4 10 0 5 3 9 7 9z"/>',file:'<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8zM14 3v5h5"/>',lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/>'};
 const ic=(n,s)=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true"${s?` style="width:${s}px;height:${s}px"`:''}>${P[n]}</svg>`;
 
 /* ===== Speicher ===== */
@@ -82,7 +82,7 @@ const DB={mem:new Map(),use:false,by:new Map(),
   if(n<=LIM.store&&b<=LIM.storeBytes&&nsub<=LIM.maxSubs)return 0;let gone=0;
   const rootIds=new Set([...this.mem.values()].filter(o=>o.t==='root').map(o=>o.id));
   for(const o of [...this.mem.values()])if(o.thread&&!rootIds.has(o.thread)){await this.del(o.id);gone++}
-  const sweep=async()=>{const ref=new Set();for(const o of this.mem.values()){if(o.snap)ref.add(o.snap.hash);for(const m of o.media||[])ref.add(m.h)}for(const o of [...this.mem.values()])if(o.t==='blob'&&!ref.has(o.id)){await this.del(o.id);gone++}};await sweep();
+  const sweep=async()=>{const ref=new Set();for(const o of this.mem.values()){if(o.snap)ref.add(o.snap.hash);if(o.shot)ref.add(o.shot.hash);for(const m of o.media||[])ref.add(m.h)}for(const o of [...this.mem.values()])if(o.t==='blob'&&!ref.has(o.id)){await this.del(o.id);gone++}};await sweep();
   if(nsub>LIM.maxSubs){const used=new Set([...this.mem.values()].filter(o=>o.t==='root'&&o.sub).map(o=>o.sub));for(const o of [...this.mem.values()].filter(o=>o.t==='sub'&&!used.has(o.id)).sort((a,c)=>a.ts-c.ts)){if(nsub<=LIM.maxSubs)break;await this.del(o.id);nsub--;gone++}}
   const over=()=>{let c=this.mem.size,y=0;for(const o of this.mem.values())if(o.t==='blob')y+=o.data.length;return c>LIM.store*.8||y>LIM.storeBytes*.8};
   if(this.mem.size>LIM.store||b>LIM.storeBytes){this.index();const cand=[...this.mem.values()].filter(o=>o.t==='root'&&o.ts<Date.now()-3*864e5).map(summ).sort((a,c)=>a.hot-c.hot);
@@ -121,6 +121,11 @@ const okUrl=u=>{if(!sOK(u,2000)||!/^https?:\/\//i.test(u))return false;try{retur
 const okLoc=l=>!!l&&typeof l==='object'&&fin(l.lat,-90,90)&&fin(l.lon,-180,180);
 const okAnchor=a=>!!a&&typeof a==='object'&&!Array.isArray(a)&&Object.keys(a).length<=8&&sOK(a.kind,20)&&Object.values(a).every(v=>typeof v==='boolean'||fin(v,-1e9,1e9)||sOK(v,1000));
 const okMedia=m=>!!m&&typeof m==='object'&&H64.test(m.h||'')&&typeof m.m==='string'&&m.m.length<=80&&MIME.test(m.m)&&(m.n===undefined||sOK(m.n,120))&&(m.s===undefined||fin(m.s,0,3e6));
+/* Verbindungszahl neben dem Namen: grob gerundet (eine gültige Ziffer), vom Absender angegeben, nicht geprüft */
+function cnB(n){n=Math.floor(+n)||0;if(n<10)return Math.max(0,n);const p=10**(String(n).length-1);return Math.floor(n/p)*p}
+function cnF(n){const f=(v,u)=>(v%1?v.toFixed(1):v)+u;return n>=1e9?f(n/1e9,'B'):n>=1e6?f(n/1e6,'M'):n>=1e3?f(n/1e3,'K'):String(n)}
+const cnExtra=()=>Meta.get('cnshow',1)?{cn:cnB(Meta.get('met',0)||0)}:{};
+const cnTag=c=>Number.isInteger(c.cn)?`<span class="cn" title="${esc(_('Angabe des Absenders: So viele Verbindungen hatte dieser Mensch beim Schreiben. Nicht geprüft.'))}" aria-label="${esc(_('Verbindungen: {n}',{n:cnF(c.cn)}))}">${ic('people',11)}${cnF(c.cn)}</span>`:'';
 async function validate(o){
   if(!o||typeof o!=='object'||Array.isArray(o)||typeof o.t!=='string'||typeof o.id!=='string'||!H64.test(o.id))return false;
   if(o.t==='blob')return typeof o.data==='string'&&o.data.length<2.9e6&&B64RE.test(o.data)&&sha(o.data)===o.id;
@@ -132,11 +137,13 @@ async function validate(o){
   if(o.t==='root'){if(!(sOK(o.title,200)&&o.title&&okAnchor(o.anchor)&&sOK(o.salt,64)))return false;
     if(o.geo!=null&&!(okLoc(o.geo)&&(o.geo.gh===undefined||(typeof o.geo.gh==='string'&&/^[0-9a-z]{1,12}$/.test(o.geo.gh)))))return false;
     if(o.snap!=null&&!(typeof o.snap==='object'&&H64.test(o.snap.hash||'')&&fin(o.snap.size,0,4e6)))return false;
+    if(o.shot!=null&&!(typeof o.shot==='object'&&H64.test(o.shot.hash||'')&&fin(o.shot.size,0,2.9e6)&&['image/jpeg','image/png','image/webp'].includes(o.shot.m)))return false;
     if(o.sub!==undefined&&!H64.test(o.sub))return false}
   if(o.t==='sub'&&!(subOk(o)&&sOK(o.salt,64)))return false;
   if(o.t==='comment'){if(!(typeof o.body==='string'&&o.body&&o.body.length<=4000))return false;
     if(o.parent!=null&&!H64.test(o.parent))return false;
     if(o.url!=null&&!okUrl(o.url))return false;
+    if(o.cn!==undefined&&!(Number.isInteger(o.cn)&&o.cn>=0&&o.cn<=1e10&&o.cn===cnB(o.cn)))return false;
     if(o.loc!=null&&!okLoc(o.loc))return false;
     if(o.media!==undefined&&!(Array.isArray(o.media)&&o.media.length<=4&&o.media.every(okMedia)))return false;
     if(o.kind!==undefined&&!sOK(o.kind,20))return false}
@@ -175,12 +182,13 @@ async function createSub({name,desc,rules,m=master(),ts=Date.now()}){
 const subs=()=>[...DB.mem.values()].filter(o=>o.t==='sub');
 const subLabel=sb=>{const same=subs().filter(x=>x.name.toLowerCase()===sb.name.toLowerCase()).length>1;return same?sb.name+' · '+sb.id.slice(0,4):sb.name};
 const subThreads=id=>roots().filter(r=>r.sub===id);
-async function createThread({title,anchor,geo,html,first,m=master(),ts=Date.now(),extra,sub}){
+async function createThread({title,anchor,geo,html,first,m,ts=Date.now(),extra,sub,shot}){const own=m===undefined;if(own)m=master();
+  let shotRef=null;if(shot&&B64RE.test(shot)){const bb={t:'blob',id:sha(shot),data:shot};await DB.put(bb);shotRef={hash:bb.id,size:shot.length,m:'image/jpeg'}}
   let snap=null;if(html){const data=btoa(unescape(encodeURIComponent(html)));const b={t:'blob',id:sha(data),data};await DB.put(b);snap={hash:b.id,size:data.length}}
   const salt=hex(rnd32().slice(0,16));const key=await rootKey(m,salt);
-  const root=await signObj({t:'root',v:1,title:title.slice(0,200),anchor,geo:geo?{lat:geo.lat,lon:geo.lon,gh:gh(geo.lat,geo.lon)}:null,ts,snap,author:key.pub,salt,...(sub?{sub}:{})},key);
-  await DB.put(root);if(first)await postComment(root.id,first.body,null,first.extra,m);return root}
-async function postComment(tid,body,parent,extra={},m=master(),ts=nowMin()){const key=await keyFor(tid,m);
+  const root=await signObj({t:'root',v:1,title:title.slice(0,200),anchor,geo:geo?{lat:geo.lat,lon:geo.lon,gh:gh(geo.lat,geo.lon)}:null,ts,snap,author:key.pub,salt,...(sub?{sub}:{}),...(shotRef?{shot:shotRef}:{})},key);
+  await DB.put(root);if(first)await postComment(root.id,first.body,null,own?{...cnExtra(),...first.extra}:first.extra,m);return root}
+async function postComment(tid,body,parent,extra={},m,ts=nowMin()){if(m===undefined){m=master();if(extra.cn===undefined)extra={...cnExtra(),...extra}}const key=await keyFor(tid,m);
   const blobs=extra.blobs||[];for(const b of blobs)await DB.put(b);const{blobs:_,...rest}=extra;
   const o=await signObj({t:'comment',thread:tid,parent:parent||null,body:body.slice(0,4000),...rest,ts,author:key.pub},key);await DB.put(o);return o}
 async function postVote(tid,target,dir,m=master(),ts=nowMin()){const key=await keyFor(tid,m);const o=await signObj({t:'vote',thread:tid,target,dir,ts,author:key.pub},key);DB.mem.set(o.id,o);DB.index();if(DB.use)try{await DB.tx('put',o)}catch{}return o}
@@ -313,7 +321,7 @@ const SORTC=[['best','Beste'],['top','Top'],['new','Neu'],['ctr','Umstritten']];
 let curKey=null;
 async function viewThread(id){const r=DB.mem.get(id);
  if(!r){$('#main').innerHTML=`${topbar(true,'')}<div class="empty">${art(0)}<h2>Diese Unterhaltung ist noch nicht hier</h2><p class="mu">Importiere die Datei, die du bekommen hast, unter „Teilen“.</p><button class="btn pri" data-act="nav" data-k="share">Zu „Teilen“</button></div>`;return}
- curKey=await keyFor(id);markStep('view');const s=summ(r),blob=r.snap&&DB.mem.get(r.snap.hash),[kl,ki]=KIND[r.anchor.kind]||KIND.free;
+ curKey=await keyFor(id);markStep('view');const s=summ(r),blob=r.snap&&DB.mem.get(r.snap.hash),shotB=r.shot&&DB.mem.get(r.shot.hash),[kl,ki]=KIND[r.anchor.kind]||KIND.free;
  $('#main').innerHTML=`${topbar(true,'')}<div class="meta"><span class="tag">${ic(ki,12)}${kl}</span>${subTag(r.sub)}<span>Start ${new Date(r.ts).toLocaleString(LOC(),{dateStyle:'medium',timeStyle:'short'})}</span>${r.geo?`<span>${ic('pin',13)} Ort fixiert</span>`:''}<span>Kürzel ${id.slice(0,8)}</span></div>
  ${gapOf(id)?`<div class="card gapb"><span>${_('Diese Unterhaltung ist noch nicht vollständig. Es fehlen noch {n} Teile. Beim nächsten Austausch geht es hier weiter.',{n:gapOf(id)})}</span> <button class="btn sm pri" data-act="connect">${_('Jetzt verbinden')}</button></div>`:''}
  <h1 translate="no" data-tx>${esc(r.title)}</h1>
@@ -321,6 +329,7 @@ async function viewThread(id){const r=DB.mem.get(id);
  ${r.anchor.url?`<p class="sm mu" style="margin:0 0 8px">Seite: ${esc(r.anchor.url)}</p>`:''}
  <div class="acts" style="margin:8px 0"><span class="vote"><button class="u ${myV(r.id)>0?'on':''}" data-act="vote" data-t="${r.id}" data-d="1" aria-label="Unterhaltung gut finden">${ic('up')}</button><b>${s.u-s.d}</b><button class="d ${myV(r.id)<0?'on':''}" data-act="vote" data-t="${r.id}" data-d="-1" aria-label="Unterhaltung nicht gut finden">${ic('down')}</button></span>
  <button class="btn sm" data-act="exp" data-id="${r.id}">${ic('upload',16)}Als Datei teilen</button><button class="btn ghost sm" data-act="hide" data-id="${r.id}">${_('Unterhaltung ausblenden')}</button></div>
+ ${shotB&&B64RE.test(shotB.data)?`<figure class="shotf"><img class="shotimg" data-act="shotzoom" alt="${esc(_('Screenshot der Seite'))}" src="data:${r.shot.m};base64,${shotB.data}"><figcaption class="sm mu">${_('Bild vom Ersteller. Nicht geprüft.')}</figcaption></figure>`:r.shot?`<p class="sm mu">${ic('clip',12)} ${deferM()[r.shot.hash]?_('Screenshot zurückgestellt'):_('Screenshot fehlt noch')}</p>`:''}
  ${snapDoc(blob)?`<details class="snap"><summary>Seitenstand beim Start ansehen</summary><iframe sandbox="" title="Gespeicherter Seitenstand" srcdoc="${esc(snapDoc(blob))}"></iframe></details>`:''}
  <div class="chips" role="group" aria-label="Kommentare sortieren" style="margin-top:12px">${SORTC.map(([k,l])=>`<button class="chip" data-act="csort" data-k="${k}" aria-pressed="${k===S.csort}">${l}</button>`).join('')}<button class="chip" data-act="sus" aria-pressed="${!S.hideSus}">${S.hideSus?'Auffälliges ausgeblendet':'Auffälliges sichtbar'}</button></div>
  <div id="clist"></div><div class="dock" id="dock"></div>`;
@@ -336,7 +345,7 @@ function renderComments(r){const{tree}=detail(r,S.csort,curKey);const sum=summ(r
    return`<a class="lnk" download="${esc(m.n||'datei')}" href="data:application/octet-stream;base64,${b.data}">${ic('clip')}<span translate="no">${esc(m.n||'Datei')}</span> · ${Math.round((m.s||0)/1024)} KB</a>`}).join('');
   const lk=c.url&&okUrl(c.url)?`<a class="lnk" href="${esc(c.url)}" target="_blank" rel="noopener noreferrer nofollow ugc">${ic('link')}${esc(new URL(c.url).hostname)}</a>`:'';
   const lc=c.loc&&okLoc(c.loc)?`<a class="lnk" href="https://www.openstreetmap.org/?mlat=${+c.loc.lat}&mlon=${+c.loc.lon}#map=17/${+c.loc.lat}/${+c.loc.lon}" target="_blank" rel="noopener noreferrer">${ic('pin')}Standort auf der Karte (ca. 100 m genau)</a>`:'';
-  return`<div class="c ${l?'':'l0'} ${x.sus?'sus':''}"><div class="cb"><div class="who"><b>${alias(c.author)}</b>${c.author===r.author?'<span class="tag">Starter</span>':''}${mine?'<span class="tag blue">Du</span>':''}${x.sus?'<span class="tag red">auffällig</span>':''}<span>${ago(c.ts)}</span></div>
+  return`<div class="c ${l?'':'l0'} ${x.sus?'sus':''}"><div class="cb"><div class="who"><b>${alias(c.author)}</b>${cnTag(c)}${c.author===r.author?'<span class="tag">Starter</span>':''}${mine?'<span class="tag blue">Du</span>':''}${x.sus?'<span class="tag red">auffällig</span>':''}<span>${ago(c.ts)}</span></div>
   <p translate="no" data-tx>${esc(c.body)}</p><div class="media">${med}${lk}${lc}</div>
   <div class="acts"><span class="vote"><button class="u ${x.my>0?'on':''}" data-act="vote" data-t="${r.id}" data-id="${x.id}" data-d="1" aria-label="Beitrag gut finden">${ic('up')}</button><b>${x.u-x.d}</b><button class="d ${x.my<0?'on':''}" data-act="vote" data-t="${r.id}" data-id="${x.id}" data-d="-1" aria-label="Beitrag nicht gut finden">${ic('down')}</button></span>
   <button class="btn ghost sm" data-act="award" data-t="${r.id}" data-id="${x.id}">${ic('award',16)}Auszeichnen</button><button class="btn ghost sm" data-act="reply" data-id="${x.id}" data-by="${esc(alias(c.author))}">Antworten</button>${mine?'':`<button class="btn ghost sm" data-act="hide" data-t="${r.id}" data-id="${x.id}" data-au="${c.author}">${_('Ausblenden')}</button>`}${aw}</div></div>${x.kids.map(k=>row(k,l+1)).join('')}</div>`};
@@ -390,22 +399,55 @@ function newSheet(step=0,data={}){
  sheet(`<div class="hd"><button class="btn ghost icon" data-a="b" aria-label="Zurück">${ic('back')}</button><h2>${t} · Neue Unterhaltung</h2><button class="btn ghost icon" data-a="x" aria-label="Schließen">${ic('x')}</button></div>
  <label class="f" for="nt">Titel</label><input type="text" id="nt" maxlength="120" placeholder="${k==='place'?'z. B. Klingel an der Haustür kaputt':k==='page'?'z. B. Stimmt diese Zahl wirklich?':'z. B. Welche Bahn nehmt ihr?'}" autocomplete="off"><div class="err" id="nterr" role="alert"></div>
  ${k==='page'?`<label class="f" for="nu">Adresse der Seite (optional)</label><input type="url" id="nu" placeholder="https://…" value="${esc(data.url||'')}"><label class="f" for="nq">Textstelle (optional)</label><textarea id="nq" rows="2" placeholder="Kopiere hier den Satz hinein, um den es geht">${esc(data.text||'')}</textarea>
+  <label class="f">${_('Screenshot (optional)')}</label><div id="shot"><div class="sm mu" id="shotst" aria-live="polite"></div><img id="shotimg" class="shotimg" alt="" hidden><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="btn sm" data-a="si">${ic('image')}${_('Bild aus Datei oder Galerie')}</button><button class="btn ghost sm" data-a="sr" id="shotrm" hidden>${_('Bild entfernen')}</button></div><input type="file" accept="image/*" hidden id="sfi"></div>
   <label class="f">Seite als Datei hinzufügen (optional)</label><p class="sm mu" style="margin:0 0 6px">So bleibt der heutige Stand erhalten, auch wenn die Seite später geändert wird. Im Browser: Seite speichern unter … als „Webseite, nur HTML“.</p><button class="btn" data-a="f">${ic('file')}Datei auswählen</button> <span class="sm mu" id="nf"></span><input type="file" accept=".html,.htm,text/html" hidden id="nfi">`:''}
  ${k==='place'?`<label class="f">Wo ist das?</label><button class="btn" data-a="g">${ic('pin')}Meinen Standort verwenden</button> <span class="sm mu" id="ng">Noch kein Ort gewählt</span><p class="sm mu">Der Ort der Unterhaltung ist öffentlich und wird auf etwa 100 m gerundet. Dein eigener Standort bleibt privat.</p>`:''}
  ${subs().length?`<label class="f" for="ns">Themenbereich (optional)</label><select id="ns"><option value="">Kein Themenbereich</option>${subs().map(sb=>`<option value="${sb.id}" ${data.sub===sb.id?'selected':''}>${esc(subLabel(sb))}</option>`).join('')}</select><div id="nsr"></div>`:''}
  <label class="f" for="nb">Erster Beitrag (optional)</label><textarea id="nb" rows="3" placeholder="Was möchtest du sagen?"></textarea>
  <button class="btn pri" style="width:100%;margin-top:14px;min-height:50px" data-a="go">Unterhaltung starten</button>`,d=>{
   d.onclick=async e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
+   if(a==='si')return $('#sfi',d).click();
+   if(a==='sr'){shotSrc='removed';shotFor=($('#nu',d)||{value:''}).value.trim();showShot(null,'removed');say('');return}
+   if(a==='sv0'){Meta.set('shotSvc','off');say(_('Kein automatischer Screenshot. Du kannst selbst ein Bild anfügen.'));return}
+   if(a==='sv1'){Meta.set('shotSvc','microlink');runAuto();return}
+   if(a==='sv2'){say(`<input type="url" id="shu2" translate="no" placeholder="https://dienst.example/shot?url={url}"> <button class="btn sm pri" data-a="sv3">${_('Speichern')}</button>`);return}
+   if(a==='sv3'){const v=($('#shu2',d)||{value:''}).value.trim();if(!/^https?:\/\/.*\{url\}/.test(v))return toast(_('Die Adresse muss {url} enthalten.'));Meta.set('shotSvc','custom');Meta.set('shotUrl',v);runAuto();return}
    if(a==='x')return closeSheet();if(a==='b')return newSheet(0,{sub:data.sub});if(a==='f')return $('#nfi',d).click();
    if(a==='g'){if(!navigator.geolocation)return toast('Dein Gerät kann den Standort nicht bestimmen.');return navigator.geolocation.getCurrentPosition(p=>{geo={lat:Math.round(p.coords.latitude*1000)/1000,lon:Math.round(p.coords.longitude*1000)/1000};$('#ng',d).textContent='Ort festgelegt ✓'},()=>toast('Kein Zugriff auf den Standort. Das kannst du in den Einstellungen erlauben.'))}
    if(a==='go'){const title=$('#nt',d).value.trim();if(title.length<3){$('#nterr',d).textContent='Bitte gib einen Titel mit mindestens 3 Zeichen ein.';$('#nt',d).focus();return}
     b.disabled=true;b.textContent='Wird angelegt …';await new Promise(r=>setTimeout(r,30));
     const anchor={kind:k==='page'?(($('#nq',d)||{value:''}).value.trim()?'passage':'page'):k};if(k==='page'){const u=$('#nu',d).value.trim();if(/^https?:\/\//.test(u))anchor.url=u;const q=$('#nq',d).value.trim();if(q)anchor.text=q.slice(0,500)}
-    const bd=$('#nb',d).value.trim();const nsEl=$('#ns',d),sbId=nsEl&&/^[0-9a-f]{64}$/.test(nsEl.value)?nsEl.value:undefined;const r=await createThread({title,anchor,geo,html,sub:sbId,first:bd?{body:bd,extra:{kind:'text'}}:null});
+    const bd=$('#nb',d).value.trim();const nsEl=$('#ns',d),sbId=nsEl&&/^[0-9a-f]{64}$/.test(nsEl.value)?nsEl.value:undefined;if(shotBusy)await Promise.race([shotBusy,new Promise(r=>setTimeout(r,4000))]);const r=await createThread({title,anchor,geo,html,sub:sbId,shot:shotData,first:bd?{body:bd,extra:{kind:'text'}}:null});
     closeSheet();markStep('comment');location.hash='#/t/'+r.id;if(!Meta.get('backupAsked'))backupHint()}};
+  let shotData=null,shotSrc='',shotTimer=0,shotBusy=null,shotFor='';
+  const sst=$('#shotst',d),simg=$('#shotimg',d),srm=$('#shotrm',d);
+  const showShot=(b64,src)=>{shotData=b64;shotSrc=src;if(!simg)return;if(b64){simg.src='data:image/jpeg;base64,'+b64;simg.hidden=false;srm.hidden=false}else{simg.hidden=true;srm.hidden=true;simg.removeAttribute('src')}};
+  const say=t=>{if(sst)sst.innerHTML=t};
+  const runAuto=async()=>{const nu=$('#nu',d);if(!nu)return;const u=nu.value.trim();if(shotSrc==='user')return;
+   if(shotSrc==='removed'){if(u===shotFor)return;shotSrc=''}
+   if(!publicUrl(u)){if(shotSrc==='auto')showShot(null,'');shotFor='';say('');return}
+   if(u===shotFor&&shotData)return;
+   const svc=Meta.get('shotSvc','');
+   if(svc==='off'){say(_('Kein automatischer Screenshot. Du kannst selbst ein Bild anfügen.'));return}
+   if(!svc){if(sst&&sst.querySelector('[data-a=sv1],#shu2'))return;say(`<b>${_('Automatisch einen Screenshot anfügen?')}</b> ${_('Dafür wird die Adresse der Seite an einen Screenshot-Dienst gesendet. Der Dienst sieht dann, welche Seite du besprichst.')}<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><button class="btn sm pri" data-a="sv1">${_('Ja, Microlink nutzen')}</button><button class="btn sm" data-a="sv2">${_('Eigenen Dienst eintragen')}</button><button class="btn ghost sm" data-a="sv0">${_('Nein, danke')}</button></div>`);return}
+   shotFor=u;say(_('Screenshot wird erstellt …'));
+   const p=fetchShot(u).then(b=>{if(nu.value.trim()!==u||shotSrc==='user')return;showShot(b,'auto');say(_('Screenshot angefügt. Du kannst ihn entfernen.'))}).catch(()=>{if(shotSrc!=='user'&&nu.value.trim()===u){showShot(null,'');shotFor='';say(_('Der Screenshot hat nicht geklappt. Du kannst selbst ein Bild anfügen.'))}});
+   shotBusy=p;await p;if(shotBusy===p)shotBusy=null};
+  const nuEl=$('#nu',d);if(nuEl){nuEl.addEventListener('input',()=>{clearTimeout(shotTimer);shotTimer=setTimeout(runAuto,900)});nuEl.addEventListener('change',runAuto);if(data.url)setTimeout(runAuto,300)}
+  const sfi=$('#sfi',d);if(sfi)sfi.onchange=async()=>{const f=sfi.files[0];sfi.value='';if(!f)return;if(!/^image\//.test(f.type))return toast(_('Das Bild konnte nicht gelesen werden.'));try{const b=await shrink(f);if(b.length>MAXB)throw 0;showShot(b,'user');say(_('Eigenes Bild angefügt.'))}catch{toast(_('Das Bild konnte nicht gelesen werden.'))}};
   const fi=$('#nfi',d);if(fi)fi.onchange=async()=>{const f=fi.files[0];if(!f)return;if(f.size>MAXB)return toast('Die Datei ist zu groß. Bis 1,5 MB geht.');html=cleanHtml(await f.text());$('#nf',d).textContent=f.name+' ✓'};
   const ns=$('#ns',d);if(ns){const showR=()=>{const sb=DB.mem.get(ns.value);$('#nsr',d).innerHTML=sb&&sb.t==='sub'?`<details open class="sm" style="margin:6px 0"><summary>Regeln dieses Themenbereichs</summary><p class="mu" translate="no" style="white-space:pre-wrap">${esc(sb.rules)}</p><p class="mu">Mit dem Start akzeptierst du diese Regeln.</p></details>`:''};ns.onchange=showR;showR()}
   $('#nt',d).focus()})}
+function publicUrl(u){try{const x=new URL(u);if(!/^https?:$/.test(x.protocol))return false;const h=x.hostname.toLowerCase();if(h==='localhost'||h.includes(':')||h.startsWith('[')||!h.includes('.'))return false;if(/\.(local|internal|lan|home|localdomain|intranet)$/.test(h))return false;if(/^(0\.|10\.|127\.|169\.254\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(h))return false;return true}catch{return false}}
+async function fetchShot(url){const svc=Meta.get('shotSvc',''),tpl=Meta.get('shotUrl','');let api='';
+ if(svc==='microlink')api='https://api.microlink.io/?url='+encodeURIComponent(url)+'&screenshot=true&meta=false&viewport.width=1100&viewport.height=700&type=jpeg';
+ else if(svc==='custom'&&/^https?:\/\/.*\{url\}/.test(tpl))api=tpl.replace('{url}',encodeURIComponent(url));
+ else throw new Error('kein Dienst');
+ const ac=new AbortController(),to=setTimeout(()=>ac.abort(),25000),opt={signal:ac.signal,credentials:'omit',referrerPolicy:'no-referrer'};
+ try{const r=await fetch(api,opt);if(!r.ok)throw new Error('http');let bl;
+  if(/^image\//.test(r.headers.get('content-type')||''))bl=await r.blob();
+  else{const j=await r.json(),u=(j&&j.data&&j.data.screenshot&&j.data.screenshot.url)||(j&&typeof j.screenshot==='string'&&j.screenshot)||(j&&typeof j.url==='string'&&j.url);if(typeof u!=='string'||!/^https?:\/\//.test(u))throw new Error('antwort');const r2=await fetch(u,opt);if(!r2.ok)throw new Error('http');bl=await r2.blob()}
+  if(!/^image\//.test(bl.type)||bl.size>8e6)throw new Error('bild');return await shrink(bl)}finally{clearTimeout(to)}}
 function snapDoc(blob){try{if(!blob||typeof blob.data!=='string'||!B64RE.test(blob.data))return'';return cleanHtml(decodeURIComponent(escape(atob(blob.data))),true)}catch{return''}}
 function cleanHtml(src,csp){const d=new DOMParser().parseFromString(src,'text/html');d.querySelectorAll('script,iframe,object,embed,form,base,link,meta[http-equiv]').forEach(n=>n.remove());if(csp)d.querySelectorAll('*').forEach(n=>{for(const a of['src','srcset','href','poster','background','data','action','formaction','xlink:href'])if(n.hasAttribute(a)&&!(a==='href'&&n.tagName==='A')&&!/^\s*data:image\//i.test(n.getAttribute(a)))n.removeAttribute(a);if(n.hasAttribute('style'))n.setAttribute('style',n.getAttribute('style').replace(/url\([^)]*\)/gi,'none'))});
  if(csp){const m=d.createElement('meta');m.setAttribute('http-equiv','Content-Security-Policy');m.setAttribute('content',"default-src 'none'; style-src 'unsafe-inline'; img-src data:");d.head.prepend(m)}d.querySelectorAll('*').forEach(n=>[...n.attributes].forEach(a=>{if(/^on/i.test(a.name)||/^\s*javascript:/i.test(a.value))n.removeAttribute(a.name)}));return'<!doctype html>'+d.documentElement.outerHTML}
@@ -423,7 +465,7 @@ function awardSheet(tid,target){const prem=Object.entries(AW.premium).map(([k,v]
 function merkleRoot(){let L=roots().map(r=>r.id).sort();if(!L.length)return sha('');while(L.length>1){const n=[];for(let i=0;i<L.length;i+=2)n.push(sha(L[i]+(L[i+1]!==undefined?L[i+1]:L[i])));L=n}return L[0]}
 
 /* ===== Export / Import als HTML-Datei ===== */
-function threadObjects(id){const r=DB.mem.get(id),ev=DB.by.get(id)||[],bl=new Set();if(r.snap)bl.add(r.snap.hash);for(const e of ev)for(const m of e.media||[])bl.add(m.h);return[r,...[...bl].map(h=>DB.mem.get(h)).filter(Boolean),...ev]}
+function threadObjects(id){const r=DB.mem.get(id),ev=DB.by.get(id)||[],bl=new Set();if(r.snap)bl.add(r.snap.hash);if(r.shot)bl.add(r.shot.hash);for(const e of ev)for(const m of e.media||[])bl.add(m.h);return[r,...[...bl].map(h=>DB.mem.get(h)).filter(Boolean),...ev]}
 function exportHtml(id){const r=DB.mem.get(id),objs=threadObjects(id),{tree}=detail(r,'best',null),blob=r.snap&&DB.mem.get(r.snap.hash);
  const row=(x,l)=>{const c=x.c;const med=(c.media||[]).map(m=>{const b=DB.mem.get(m.h);if(!b||!B64RE.test(b.data))return'';if(IMG.test(m.m))return`<img src="data:${m.m};base64,${b.data}" alt="${esc(m.n||'')}" style="max-width:100%;border-radius:8px">`;if(AUD.test(m.m))return`<audio controls src="data:${m.m};base64,${b.data}"></audio>`;return`<a download="${esc(m.n||'datei')}" href="data:application/octet-stream;base64,${b.data}">${esc(m.n||'Datei')}</a>`}).join('');
   return`<li><b>${esc(alias(c.author))}</b> <small>▲${x.u-x.d} · ${new Date(c.ts).toLocaleString(LOC())}</small><br>${esc(c.body)}<br>${med}${c.url&&okUrl(c.url)?`<a href="${esc(c.url)}" rel="noopener noreferrer nofollow">${esc(c.url)}</a>`:''}${x.kids.length?'<ul>'+x.kids.map(k=>row(k,l+1)).join('')+'</ul>':''}</li>`};
@@ -450,6 +492,7 @@ function dataCard(){const di=deferInfo(),att=Meta.get('att','all'),cap=String(Me
  <p class="sm" style="margin:8px 0 0"><b>${_('Anhänge empfangen')}</b></p>${seg('att',att,[['all',_('Alle')],['small',_('Nur kleine')],['none',_('Keine')]])}
  <p class="sm" style="margin:0"><b>${_('Höchstens pro Austausch')}</b></p>${seg('cap',cap,[['0',_('Unbegrenzt')],['5','5 MB'],['20','20 MB'],['50','50 MB']])}
  <p class="sm" style="margin:0"><b>${_('Bildqualität beim Posten')}</b></p>${seg('imgq',q,[['h',_('Hoch')],['m',_('Mittel')],['l',_('Klein')]])}
+ <p class="sm" style="margin:0"><b>${_('Screenshot-Dienst')}</b></p>${seg('shotsvc',Meta.get('shotSvc',''),[['off',_('Aus')],['microlink','Microlink'],['custom',_('Eigener')]])}${Meta.get('shotSvc','')==='custom'?`<div style="display:flex;gap:6px;margin:-4px 0 8px"><input type="url" id="shu" translate="no" placeholder="https://dienst.example/shot?url={url}" value="${esc(Meta.get('shotUrl',''))}" style="flex:1"><button class="btn sm" data-act="shoturl">${_('Speichern')}</button></div>`:''}<p class="sm mu" style="margin:-4px 0 8px">${_('Der Dienst bekommt die Adresse der Seite. Microlink ist gratis, aber auf wenige Screenshots pro Tag begrenzt.')}</p>
  <p class="sm mu">${_('Auf diesem Gerät: {n} Anhänge, {b}. Beim QR-Austausch werden Daten zusätzlich komprimiert.',{n:bn,b:fmtB(bl)})}</p>
  ${di.n?`<div class="rxo"><b>${_('{n} Anhänge ({b}) warten auf dich',{n:di.n,b:fmtB(di.b)})}</b></div><p class="sm mu">${pull?_('Beim nächsten Austausch werden sie geladen.'):_('Sie liegen bei anderen Nutzern. Beim nächsten Austausch kannst du sie holen.')}</p><div style="display:flex;gap:8px;flex-wrap:wrap">${pull?`<button class="btn" data-act="pullx">${_('Doch nicht laden')}</button>`:`<button class="btn pri" data-act="pull">${_('Beim nächsten Austausch laden')}</button>`}<button class="btn ghost" data-act="connect">${_('Jetzt verbinden')}</button><button class="btn ghost" data-act="dropdef">${_('Liste verwerfen')}</button></div>${rows?`<ul class="rxt">${rows}</ul>`:''}`:`<p class="sm"><b>${_('Es wartet nichts auf dich.')}</b></p>`}
  ${bn?`<button class="btn ghost sm" data-act="dropatt" style="margin-top:8px">${_('Anhänge von diesem Gerät entfernen')}</button>`:''}</section>`}
@@ -468,7 +511,7 @@ function viewMe(){const th=Meta.get('theme','auto'),big=Meta.get('big',0);
  ${rxCard()}
  ${dataCard()}
  ${awCard()}
- <section class="card"><h2>${ic('user',18)} ${_('Deine Unterhaltungen')}</h2><p class="mu sm">In jeder Unterhaltung bekommst du einen anderen Tiernamen. Niemand kann sie verbinden. Du brauchst kein Konto.</p><ul class="rxt" id="mythr"><li class="sm mu">…</li></ul></section>
+ <section class="card"><h2>${ic('user',18)} ${_('Deine Unterhaltungen')}</h2><p class="mu sm">In jeder Unterhaltung bekommst du einen anderen Tiernamen. Niemand kann sie verbinden. Du brauchst kein Konto.</p><p class="sm" style="margin:10px 0 0"><b>${_('Meine Verbindungen neben dem Namen zeigen')}</b></p><div class="seg" role="group" style="margin:6px 0">${[['1',_('Ja')],['0',_('Nein')]].map(([k,l])=>`<button data-act="cnshow" data-k="${k}" aria-pressed="${String(Meta.get('cnshow',1)?1:0)===k}">${l}</button>`).join('')}</div><p class="sm mu">${_('Zeigt grob, mit wie vielen Menschen du dich schon ausgetauscht hast (zum Beispiel 10 oder 3K). Die Zahl ist deine Angabe und wird nicht geprüft. Sie ist gerundet, damit man dich nicht wiedererkennt. Jetzt: {n}',{n:cnF(cnB(Meta.get('met',0)||0))})}</p><ul class="rxt" id="mythr"><li class="sm mu">…</li></ul></section>
  <section class="card"><h2>${ic('lock',18)} Sicherung</h2><p class="mu sm">Mit dem Sicherungs-Code kannst du auf einem neuen Gerät weitermachen und bleibst derselbe Tiername in deinen Unterhaltungen.</p><button class="btn" data-act="backup">Sicherungs-Code anzeigen</button> <button class="btn ghost" data-act="restore">Code eingeben</button></section>
  <section class="card"><h2>${ic('shield',18)} ${_('Schutz und Sicherheit')}</h2><p class="mu sm">${_('Jeder Beitrag ist signiert und kostet etwas Rechenzeit. Fremde Daten werden streng geprüft, Verdächtiges wird eingeklappt.')}</p>
   <p class="sm" style="margin:8px 0 4px"><b>${_('Prüfsumme dieser App')}</b></p><div class="code" style="font-size:.95rem" translate="no">${fmtFp(appFp())}</div><p class="mu sm">${_('Vergleiche sie mit der Prüfsumme der Person, von der du die App hast.')}</p>
@@ -511,7 +554,7 @@ function attOk(sz,used){if(Meta.get('pull',0))return true;const p=Meta.get('att'
 function deferAdd(id,sz,via){const d=deferM();if(!d[id]&&Object.keys(d).length>=500)return;d[id]=[sz|0,Date.now(),via];Meta.set('defer',d)}
 function deferDel(id){const d=deferM();if(d[id]){delete d[id];Meta.set('defer',d)}}
 const fmtB=n=>n<1e5?Math.round(n/1e3)+' KB':(n/1e6).toFixed(1)+' MB';
-function deferInfo(){const d=deferM(),own=new Map();for(const o of DB.mem.values()){const t=o.t==='root'?o.id:o.thread;if(o.snap)own.set(o.snap.hash,t);for(const m of o.media||[])own.set(m.h,t)}
+function deferInfo(){const d=deferM(),own=new Map();for(const o of DB.mem.values()){const t=o.t==='root'?o.id:o.thread;if(o.snap)own.set(o.snap.hash,t);if(o.shot)own.set(o.shot.hash,t);for(const m of o.media||[])own.set(m.h,t)}
  let n=0,b=0;const th=new Map();for(const[id,v]of Object.entries(d)){if(DB.mem.has(id)){deferDel(id);continue}n++;b+=v[0]||0;const t=own.get(id);if(t){const z=th.get(t)||[0,0];z[0]++;z[1]+=v[0]||0;th.set(t,z)}}
  return{n,b,th}}
 /* ===== Teilübertragung: Reihenfolge, Pakete, Protokoll, Fortsetzen ===== */
@@ -522,7 +565,7 @@ function orderedObjs(){const grp=new Map(),subsL=[],blobs=new Map();
  for(const o of DB.mem.values()){if(o.t==='blob'){blobs.set(o.id,o);continue}if(o.t==='sub'){subsL.push(o);continue}const k=o.t==='root'?o.id:o.thread;let g=grp.get(k);if(!g)grp.set(k,g={root:null,ev:[]});o.t==='root'?g.root=o:g.ev.push(o)}
  const rank={comment:0,award:1,vote:2},out=[...subsL.sort((a,b)=>b.ts-a.ts)],used=new Set();
  for(const g of[...grp.values()].sort((a,b)=>(b.root?b.root.ts:0)-(a.root?a.root.ts:0))){if(g.root)out.push(g.root);g.ev.sort((a,b)=>((rank[a.t]??3)-(rank[b.t]??3))||a.ts-b.ts);out.push(...g.ev);
-  const refs=[];if(g.root&&g.root.snap)refs.push(g.root.snap.hash);for(const e of g.ev)for(const m of e.media||[])refs.push(m.h);
+  const refs=[];if(g.root&&g.root.snap)refs.push(g.root.snap.hash);if(g.root&&g.root.shot)refs.push(g.root.shot.hash);for(const e of g.ev)for(const m of e.media||[])refs.push(m.h);
   for(const h of refs){const b=blobs.get(h);if(b&&!used.has(h)){used.add(h);out.push(b)}}}
  for(const[h,b]of blobs)if(!used.has(h))out.push(b);
  return out}
@@ -708,11 +751,50 @@ function sharePlaces(){const L=roots().sort((a,b)=>((b.anchor.kind==='place')-(a
  return`<section class="card"><h2>${ic('pin',18)} QR-Code für einen Ort</h2><p class="mu sm">Klebe den Code an eine Tür, Haltestelle oder Wand. Wer ihn scannt, bekommt die Unterhaltung direkt aufs Gerät, auch ohne Internet.</p>
  ${L.length?`<div class="sm"><b>Unterhaltung wählen</b></div>`+L.map(r=>`<button class="card thr" data-act="sticker" data-id="${r.id}" style="margin-top:8px"><h3 translate="no">${esc(r.title)}</h3></button>`).join(''):`<p class="mu">Starte zuerst eine Unterhaltung für einen Ort.</p>`}</section>
  <section class="card"><h2>${ic('globe',18)} Einen Aufkleber scannen</h2><p class="mu sm">Scanne den QR-Code an einem Ort, um mitzureden.</p><button class="btn pri" data-act="scan">Scannen</button></section>`}
-function sharePlugin(){const me=location.href.split('#')[0];return`<section class="card"><h2>${ic('globe',18)} Browser-Plugin</h2><p class="mu sm">Mit dem Plugin öffnest du von jeder Webseite aus die passende Unterhaltung in der App. Es braucht keinen Server.</p>
- <ol class="mu sm" style="padding-left:1.2em"><li>Öffne chrome://extensions und schalte den Entwicklermodus ein.</li><li>Wähle „Entpackte Erweiterung laden“ und den Ordner „extension“.</li><li>Trage in den Plugin-Einstellungen diese Adresse der App ein:<div class="code" style="font-size:.8rem;margin-top:6px" translate="no">${esc(me)}</div><button class="btn sm" data-act="copy" data-v="${esc(me)}" style="margin-top:6px">Kopieren</button></li><li>Rechtsklick auf eine Webseite oder markierten Text, dann „Mit Outernet besprechen“.</li></ol></section>`}
+/* ===== Von Webseiten aus: Lesezeichen und Browser-Plugin ===== */
+const EXT=/*@EXT@*/;
+const appAddr=()=>{const l=location.href.split('#')[0];const m=Meta.get('stickerApp','');return/^https?:\/\//.test(m)?m:l};
+function bookmarklet(app){const body="(function(){var s=String(getSelection()||'').trim().slice(0,500);window.open("+JSON.stringify(app)+"+'#/link/'+encodeURIComponent(location.href)+(s?'/'+encodeURIComponent(s):''))})()";return'javascript:'+encodeURIComponent(body)}
+function crc32(u){let t=crc32.t;if(!t){t=crc32.t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}}let c=-1;for(let i=0;i<u.length;i++)c=t[(c^u[i])&255]^(c>>>8);return(c^-1)>>>0}
+function zipStore(files){const te=new TextEncoder(),loc=[],cen=[];let off=0;
+ for(const[name,data]of files){const nb=te.encode(name),crc=crc32(data),h=new DataView(new ArrayBuffer(30));
+  h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(8,0,true);h.setUint16(10,0,true);h.setUint16(12,23585,true);h.setUint32(14,crc,true);h.setUint32(18,data.length,true);h.setUint32(22,data.length,true);h.setUint16(26,nb.length,true);h.setUint16(28,0,true);
+  loc.push(new Uint8Array(h.buffer),nb,data);
+  const c=new DataView(new ArrayBuffer(46));c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(8,0x0800,true);c.setUint16(10,0,true);c.setUint16(12,0,true);c.setUint16(14,23585,true);c.setUint32(16,crc,true);c.setUint32(20,data.length,true);c.setUint32(24,data.length,true);c.setUint16(28,nb.length,true);c.setUint32(42,off,true);
+  cen.push(new Uint8Array(c.buffer),nb);off+=30+nb.length+data.length}
+ const csz=cen.reduce((a,x)=>a+x.length,0),e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,csz,true);e.setUint32(16,off,true);
+ return new Blob([...loc,...cen,new Uint8Array(e.buffer)],{type:'application/zip'})}
+async function extIcon(px){const c=document.createElement('canvas');c.width=c.height=px;const x=c.getContext('2d'),g=x.createLinearGradient(0,0,px,px);g.addColorStop(0,'#7c3aed');g.addColorStop(.55,'#db2777');g.addColorStop(1,'#f59e0b');x.fillStyle=g;x.beginPath();x.arc(px/2,px/2,px/2,0,7);x.fill();x.strokeStyle='#fff';x.lineWidth=px/9;x.lineCap='round';x.beginPath();x.arc(px/2,px/2,px*.24,0,7);x.stroke();
+ return new Uint8Array(await new Promise(r=>c.toBlob(b=>b.arrayBuffer().then(a=>r(a)),'image/png')))}
+const SAFARI_TXT="Outernet für Safari (Mac)\n\nSafari lädt Plugins nur, wenn sie als kleine Mac-App verpackt sind. Das braucht Apples kostenlose Entwicklerwerkzeuge (Xcode).\n\n1. Entpacke diese ZIP-Datei in einen Ordner, zum Beispiel ~/outernet-plugin\n2. Öffne das Terminal und gib ein:\n   xcrun safari-web-extension-converter ~/outernet-plugin --app-name Outernet\n3. Xcode öffnet sich. Drücke den Start-Knopf (Run).\n4. Öffne Safari > Einstellungen > Erweiterungen und schalte Outernet ein. Falls es fehlt: Entwickler > Unsignierte Erweiterungen erlauben.\n\nAuf dem iPhone und iPad geht das nicht ohne Apple-Entwicklerkonto. Nutze dort das Lesezeichen aus der App.\n";
+async function extZip(target,app){const man=JSON.parse(EXT['manifest.json']);const png=[48,128];man.icons={48:'icon48.png',128:'icon128.png'};man.action.default_icon={48:'icon48.png'};
+ if(target==='firefox'){man.background={scripts:['background.js']};man.browser_specific_settings={gecko:{id:'outernet@outernet.invalid',strict_min_version:'121.0',data_collection_permissions:{required:['none']}}}}
+ else if(target==='safari'){man.background={scripts:['background.js'],persistent:false}}
+ const te=new TextEncoder(),fill=t=>te.encode(t.replace(/__APP_URL__/g,app.replace(/\\/g,'\\\\').replace(/'/g,"\\'")));
+ const files=[['manifest.json',te.encode(JSON.stringify(man,null,2))],['background.js',fill(EXT['background.js'])],['options.html',te.encode(EXT['options.html'])],['options.js',fill(EXT['options.js'])]];
+ for(const px of png)files.push(['icon'+px+'.png',await extIcon(px)]);
+ if(target==='safari')files.push(['SAFARI.txt',te.encode(SAFARI_TXT)]);
+ return zipStore(files)}
+function browserKind(){const u=navigator.userAgent;return/Firefox\//.test(u)?'firefox':/Edg\/|OPR\/|Chrome\/|CriOS\//.test(u)?'chrome':/Safari\//.test(u)?'safari':''}
+const isMobileUA=()=>/Android|iPhone|iPad|iPod/.test(navigator.userAgent);
+function sharePlugin(){const app=appAddr(),file=/^file:/.test(app),bk=browserKind(),mob=isMobileUA(),bm=bookmarklet(app);
+ const STEPS={chrome:[_('Entpacke die ZIP-Datei in einen Ordner.'),_('Öffne chrome://extensions (in Edge: edge://extensions) und schalte „Entwicklermodus“ ein.'),_('Wähle „Entpackte Erweiterung laden“ und den Ordner.')],
+  firefox:[_('Öffne about:debugging#/runtime/this-firefox.'),_('Wähle „Temporäres Add-on laden“ und dann die ZIP-Datei. Nicht entpacken.'),_('Das gilt, bis Firefox neu startet. Dauerhaft geht es nur mit einer kostenlosen Signatur von addons.mozilla.org (Anleitung in docs/EXTENSION.md).')],
+  safari:[_('Safari verlangt Apples Entwicklerwerkzeuge (Xcode, nur Mac). Die ZIP enthält die Anleitung SAFARI.txt mit zwei Befehlen.'),_('Auf iPhone und iPad geht das nicht. Nutze dort das Lesezeichen.')]};
+ const NAMES={chrome:'Chrome, Edge, Brave',firefox:'Firefox',safari:'Safari'};
+ const row=k=>`<details class="plg"${bk===k&&!mob?' open':''}><summary><b>${NAMES[k]}</b>${bk===k?` <span class="tag gold">${_('Dein Browser')}</span>`:''}</summary><ol class="mu sm" style="padding-left:1.2em">${STEPS[k].map(x=>`<li>${x}</li>`).join('')}</ol><button class="btn pri sm" data-act="plugdl" data-k="${k}">${ic('dl',16)} ${_('Plugin laden')}</button></details>`;
+ return`<section class="card"><h2>${ic('globe',18)} ${_('Von Webseiten aus mitreden')}</h2><p class="mu sm">${_('Du bist auf einer Seite und willst darüber sprechen? Mit einem Knopf im Browser öffnest du die passende Unterhaltung. Markierter Text wird zur Textstelle.')}</p></section>
+ <section class="card"><h2>${ic('bookmark',18)} ${_('Lesezeichen')} <span class="tag gold">${_('Für alle Browser')}</span></h2><p class="mu sm">${_('Ohne Installation, auch auf dem Handy. Zieh den Knopf in die Lesezeichenleiste. Auf einer Seite tippst du ihn an, und die Unterhaltung öffnet sich.')}</p>
+ <p><a class="btn pri bm" href="${esc(bm)}" data-act="bmhint" draggable="true" translate="no">Outernet</a></p>
+ <p class="mu sm">${_('Auf dem Handy: Lege irgendein Lesezeichen an, bearbeite es und füge diesen Code als Adresse ein.')}</p><button class="btn sm" data-act="copy" data-v="${esc(bm)}">${_('Code kopieren')}</button>
+ ${file?`<p class="sm" style="margin-top:8px"><b>${_('Achtung:')}</b> ${_('Diese App läuft als Datei. Browser verbieten Webseiten, Dateien zu öffnen. Das Lesezeichen geht nur, wenn die App unter einer Webadresse liegt (zum Beispiel vom Vermittler oder von deinem Webspace). Das Plugin unten geht auch mit einer Datei.')}</p>`:''}</section>
+ <section class="card"><h2>${ic('globe',18)} ${_('Browser-Plugin')} <span class="tag">${_('Computer')}</span></h2><p class="mu sm">${_('Rechtsklick auf Seite, Link oder markierten Text, dann „Mit Outernet besprechen“. Die Adresse dieser App ist schon eingetragen.')}</p>
+ ${mob?`<p class="sm"><b>${_('Auf dem Handy gibt es für Plugins kaum Unterstützung. Nimm das Lesezeichen.')}</b></p><details><summary class="sm">${_('Trotzdem Plugin laden')}</summary>${['chrome','firefox','safari'].map(row).join('')}</details>`:['chrome','firefox','safari'].map(row).join('')}
+ <p class="mu sm" style="margin-top:8px">${_('Das Plugin ist nur ein Startknopf. Es sendet nichts, lädt nichts und kennt deine Unterhaltungen nicht.')}</p></section>
+ <section class="card"><h2>${ic('link',18)} ${_('Ganz ohne Zusatz')}</h2><p class="mu sm">${_('Kopiere die Adresse der Seite. Tippe in der App auf +, wähle „Webseite“ und füge sie ein.')}</p></section>`}
 function viewShare(){const rs=roots().length,area=S.shareArea||'offline';
  $('#main').innerHTML=`${topbar()}<h1>Teilen &amp; Sichern</h1><p class="mu" style="margin:0 0 12px">Gib Unterhaltungen von Mensch zu Mensch weiter, ganz ohne Firma dazwischen.</p>
- <div class="seg" role="group" aria-label="Bereich" style="margin-bottom:12px">${[['offline','Offline teilen'],['places','Orte (QR)'],['plugin','Browser-Plugin']].map(([k,l])=>`<button data-act="area" data-k="${k}" aria-pressed="${area===k}">${l}</button>`).join('')}</div>
+ <div class="seg" role="group" aria-label="Bereich" style="margin-bottom:12px">${[['offline','Offline teilen'],['places','Orte (QR)'],['plugin','Webseiten']].map(([k,l])=>`<button data-act="area" data-k="${k}" aria-pressed="${area===k}">${l}</button>`).join('')}</div>
  ${area==='offline'?shareOffline(rs):area==='places'?sharePlaces():sharePlugin()}`}
 
 /* ===== Animation beim Teilen ===== */
@@ -877,7 +959,7 @@ function wifiSheet(){
    else if(a==='pp'){try{await accept(await parseSignalText($('#wpaste',d).value))}catch{st(_('Dieser Code passt nicht. Prüfe, ob du den ganzen Code kopiert hast.'))}}};
   choose()})}
 /* ===== Hilfe ===== */
-function helpSheet(){const Q=[['Muss ich mich anmelden?','Nein. Es gibt kein Konto, keine E-Mail und keine Telefonnummer.'],['Wer sieht, was ich schreibe?','Alle, die die Unterhaltung öffnen. Dein Name ist ein Tiername wie „Fuchs 42“. Er ist in jeder Unterhaltung anders.'],['Kann man mich erkennen?','Nicht an deinem Namen. Aber: Schreibe keine echten Namen, Adressen oder Telefonnummern. Was du schreibst, bleibt lesbar.'],['Kann ich Beiträge löschen?','Nicht sicher. Weil keine Firma dahintersteht, haben andere schon Kopien. Überlege deshalb vor dem Senden.'],['Was bedeutet „auffällig“?','Der Beitrag sieht aus wie Spam oder wie viele gleiche Texte auf einmal. Er ist nur ausgeblendet, nicht gelöscht. Du kannst ihn einblenden.'],['Was kosten Auszeichnungen?','Nichts. Die besonderen Auszeichnungen schaltest du nach und nach frei, wenn du dich mit anderen austauschst.'],['Wie bekomme ich eine Unterhaltung zu Freunden?','Öffne sie und tippe auf „Als Datei teilen“. Schicke die Datei per Messenger oder Mail.'],['Wie funktioniert der QR-Aufkleber?','Im Aufkleber steckt die Unterhaltung als QR-Code. Wer ihn scannt, bekommt sie aufs Gerät. Erstelle ihn unter Teilen → Orte (QR), drucke ihn aus und klebe ihn an den Ort.'],['Was, wenn ich mein Handy verliere?','Mit dem Sicherungs-Code unter „Ich“ kommst du auf einem neuen Gerät weiter.'],['Wie funktioniert die Übersetzung?','Texte in einer anderen Sprache werden automatisch in deine Sprache übersetzt. Darunter steht, dass sie übersetzt wurden. Mit einem Tipp siehst du den Originaltext. Erkannt werden Deutsch, Englisch, Französisch, Chinesisch, Japanisch und Russisch.']];
+function helpSheet(){const Q=[['Muss ich mich anmelden?','Nein. Es gibt kein Konto, keine E-Mail und keine Telefonnummer.'],['Wer sieht, was ich schreibe?','Alle, die die Unterhaltung öffnen. Dein Name ist ein Tiername wie „Fuchs 42“. Er ist in jeder Unterhaltung anders.'],['Kann man mich erkennen?','Nicht an deinem Namen. Aber: Schreibe keine echten Namen, Adressen oder Telefonnummern. Was du schreibst, bleibt lesbar.'],['Kann ich Beiträge löschen?','Nicht sicher. Weil keine Firma dahintersteht, haben andere schon Kopien. Überlege deshalb vor dem Senden.'],['Was bedeutet „auffällig“?','Der Beitrag sieht aus wie Spam oder wie viele gleiche Texte auf einmal. Er ist nur ausgeblendet, nicht gelöscht. Du kannst ihn einblenden.'],['Was bedeutet die Zahl neben einem Namen?','So viele Verbindungen mit Menschen hatte die Person beim Schreiben, grob gerundet. Es ist ihre eigene Angabe und nicht geprüft. Sie sagt nichts darüber, ob etwas stimmt.'],['Was kosten Auszeichnungen?','Nichts. Die besonderen Auszeichnungen schaltest du nach und nach frei, wenn du dich mit anderen austauschst.'],['Wie bekomme ich eine Unterhaltung zu Freunden?','Öffne sie und tippe auf „Als Datei teilen“. Schicke die Datei per Messenger oder Mail.'],['Wie funktioniert der QR-Aufkleber?','Im Aufkleber steckt die Unterhaltung als QR-Code. Wer ihn scannt, bekommt sie aufs Gerät. Erstelle ihn unter Teilen → Orte (QR), drucke ihn aus und klebe ihn an den Ort.'],['Was, wenn ich mein Handy verliere?','Mit dem Sicherungs-Code unter „Ich“ kommst du auf einem neuen Gerät weiter.'],['Wie funktioniert die Übersetzung?','Texte in einer anderen Sprache werden automatisch in deine Sprache übersetzt. Darunter steht, dass sie übersetzt wurden. Mit einem Tipp siehst du den Originaltext. Erkannt werden Deutsch, Englisch, Französisch, Chinesisch, Japanisch und Russisch.']];
  sheet(`<div class="hd"><h2>Hilfe</h2><button class="btn ghost icon" data-a="x" aria-label="Schließen">${ic('x')}</button></div>${Q.map(([q,a])=>`<details><summary>${q}</summary><p class="mu">${a}</p></details>`).join('')}`,d=>{d.onclick=e=>{if(e.target.closest('[data-a=x]'))closeSheet()}})}
 
 /* ===== Willkommen (Onboarding) ===== */
@@ -912,8 +994,8 @@ async function seed(prog=()=>{}){if(Meta.get('seeded'))return;Meta.set('seeded',
  const t2=await createThread({title:'Klingel an der Haustür Kastanienallee 12 kaputt?',anchor:{kind:'place'},geo:{lat:52.540,lon:13.424},m:U(),ts:N-40*H});
  const t3=await createThread({sub:sbV.id,title:'Welche Bahn nehmt ihr zum Hauptbahnhof?',anchor:{kind:'free'},m:U(),ts:N-2*H});
  const V=[...Array(14)].map(U);
- const say1=async(t,m,txt,par,age,up,dn,aw=[])=>{const c=await postComment(t.id,txt,par,{kind:'text'},m,N-age*60000);tick();for(let i=0;i<up;i++)await postVote(t.id,c.id,1,V[i],N-age*60000+i*1000);for(let i=0;i<dn;i++)await postVote(t.id,c.id,-1,V[13-i],N-age*60000+i*1000);for(const k of aw)await postAward(t.id,c.id,k,undefined,V[aw.indexOf(k)],N-age*60000+5000);tick();return c};
- const a=U(),b=U(),c=U(),d=U(),e=U();
+ const say1=async(t,m,txt,par,age,up,dn,aw=[])=>{const c=await postComment(t.id,txt,par,{kind:'text',cn:CNS.get(m)},m,N-age*60000);tick();for(let i=0;i<up;i++)await postVote(t.id,c.id,1,V[i],N-age*60000+i*1000);for(let i=0;i<dn;i++)await postVote(t.id,c.id,-1,V[13-i],N-age*60000+i*1000);for(const k of aw)await postAward(t.id,c.id,k,undefined,V[aw.indexOf(k)],N-age*60000+5000);tick();return c};
+ const a=U(),b=U(),c=U(),d=U(),e=U();const CNS=new Map([[a,10],[b,200],[c,0],[d,3],[e,40]]);
  const c1=await say1(t1,a,'Ohne Parkplätze sterben die kleinen Läden aus, das zeigen andere Städte.',null,290,5,3);
  await say1(t1,b,'In Kopenhagen stieg der Umsatz nach dem Umbau. Studien gibt es genug.',c1.id,270,12,0,['hilfreich','gold']);
  await say1(t1,c,'Parkhäuser am Stadtrand sind für Rollstuhlfahrer keine Lösung.',null,200,9,1,['klug']);
@@ -940,6 +1022,10 @@ document.addEventListener('click',async e=>{const b=e.target.closest('[data-act]
  else if(a==='clrlog'){Meta.set('rxlog',[]);viewMe()}
  else if(a==='att'||a==='cap'||a==='imgq'){Meta.set(a,a==='cap'?+b.dataset.k:b.dataset.k);viewMe()}
  else if(a==='pull'){Meta.set('pull',1);viewMe();toast(_('Beim nächsten Austausch werden die Anhänge geladen.'))}
+ else if(a==='shotsvc'){Meta.set('shotSvc',b.dataset.k);viewMe()}
+ else if(a==='shoturl'){const v=($('#shu')||{value:''}).value.trim();if(!/^https?:\/\/.*\{url\}/.test(v))return toast(_('Die Adresse muss {url} enthalten.'));Meta.set('shotUrl',v);toast(_('Gespeichert'))}
+ else if(a==='cnshow'){Meta.set('cnshow',b.dataset.k==='1'?1:0);viewMe()}
+ else if(a==='shotzoom'){b.classList.toggle('full')}
  else if(a==='pullx'){Meta.set('pull',0);viewMe()}
  else if(a==='dropdef'){Meta.set('defer',{});viewMe()}
  else if(a==='dropatt'){(async()=>{for(const o of[...DB.mem.values()])if(o.t==='blob'){deferAdd(o.id,o.data.length,'local');await DB.del(o.id)}DB.index();viewMe();toast(_('Anhänge entfernt. Du kannst sie später wieder laden.'))})()}
@@ -958,6 +1044,8 @@ document.addEventListener('click',async e=>{const b=e.target.closest('[data-act]
  else if(a==='wifi')wifiSheet();else if(a==='dlapp'){dlFile('outernet.html',SELF,'text/html');shareDone(_('Bereit zum Teilen'),_('Datei gespeichert. Schicke sie weiter.'))}
  else if(a==='connect')connectSheet('both');else if(a==='scan')connectSheet('scan');else if(a==='sticker')stickerSheet(id);
  else if(a==='area'){S.shareArea=b.dataset.k;viewShare()}
+ else if(a==='bmhint'){e.preventDefault();toast(_('Nicht antippen, sondern in die Lesezeichenleiste ziehen.'))}
+ else if(a==='plugdl'){const k=b.dataset.k;if(!['chrome','firefox','safari'].includes(k))return;try{const bl=await extZip(k,appAddr()),u=document.createElement('a');u.href=URL.createObjectURL(bl);u.download='outernet-plugin-'+k+'.zip';document.body.append(u);u.click();u.remove();setTimeout(()=>URL.revokeObjectURL(u.href),4000);toast(_('Plugin geladen. Folge den Schritten darüber.'))}catch{toast(_('Das Plugin konnte nicht erzeugt werden.'))}}
  else if(a==='lang'){LANG=b.dataset.k;Meta.set('lang',LANG);applyLang();closeSheet();route()}
  else if(a==='autotr'){Meta.set('autotr',b.checked?1:0);if(b.checked){document.querySelectorAll('[data-tx]').forEach(e=>delete e.dataset.txd);xlate()}}
  else if(a==='txtoggle'){const e=b.previousElementSibling;if(!e||!e.dataset.orig)return;if(e.dataset.txs==='tr'){e.textContent=e.dataset.orig;e.dataset.txs='orig';txNote(e,'orig',e.dataset.from)}else if(e.dataset.txs==='orig'){e.textContent=e.dataset.tr;e.dataset.txs='tr';txNote(e,'tr',e.dataset.from)}}

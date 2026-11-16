@@ -24,8 +24,11 @@ Outernet ist eine Gemeinschaft von Mensch zu Mensch: anonyme Unterhaltungen zu W
 - Anonym: pro Unterhaltung ein anderer Tiername, signierte Beiträge, kein Konto
 - **Austausch** per QR (animierte Bildfolge), WLAN (mit oder ohne Vermittler) und Datei. Der Austausch läuft in fertigen Paketen: Bricht er ab, bleibt das Empfangene sichtbar und geht später am gleichen Punkt weiter. Unter „Ich“ siehst du, was du schon bekommen hast.
 - **Datenmenge steuern:** Anhänge alle, nur kleine oder keine empfangen, Grenze pro Austausch, Bildqualität. Zurückgestellte Anhänge lassen sich später nachladen.
+- **Screenshot zur Seite:** Gibst du die Adresse einer Webseite an, kann die App (nach deiner Zustimmung, über einen Screenshot-Dienst) automatisch einen Screenshot anfügen. Alternativ wählst du ein eigenes Bild aus Datei oder Galerie.
+- **Verbindungszahl:** Neben Tiernamen steht unauffällig, wie viele Verbindungen die Person beim Schreiben hatte (gerundet: 0, 10, 200, 3K, 4M). Selbstangabe, abschaltbar.
 - **Auszeichnungen:** Einige sind immer frei, die besonderen (Silber, Gold, Platin) schaltest du durch Austausch frei. Es gibt kein Bezahlsystem.
 - Sechs Sprachen (DE, EN, FR, 中文, 日本語, RU), Übersetzung von Beiträgen auf dem Gerät
+- **Von Webseiten aus mitreden:** Lesezeichen (alle Browser, auch Handy) und Browser-Plugin zum Herunterladen aus der App (Chrome, Firefox, Safari)
 - Schutz vor Spam und Fälschung: Signaturen, Rechenaufwand, strenge Prüfung, Mengenlimits. Siehe `docs/SECURITY.md`.
 
 ## Aufbau des Repositories
@@ -36,9 +39,9 @@ Outernet ist eine Gemeinschaft von Mensch zu Mensch: anonyme Unterhaltungen zu W
 | `web/app.html` | Gebaute Ein-Datei-App (mit eingecheckt) |
 | `tools/` | `build.py` (baut die App), `split.py` (übernimmt Änderungen zurück), `check-syntax.js` |
 | `relay/` | Optionaler Vermittler (Node, ohne Abhängigkeiten): lässt Handys im selben WLAN sich ohne Code finden. Siehe `relay/README.md` |
-| `extension/` | Browser-Plugin (Manifest V3): öffnet zu jeder Webseite die passende Unterhaltung |
+| `extension/` | Browser-Plugin (Manifest V3, Chrome/Firefox/Safari): öffnet zu jeder Webseite die passende Unterhaltung. Die App erzeugt es zum Herunterladen. Siehe `docs/EXTENSION.md` |
 | `tests/` | Browser-Tests (Playwright) und Relay-Test |
-| `docs/` | `PROTOCOL.md`, `SECURITY.md`, `ARCHITECTURE.md`, `I18N.md`, `ANLEITUNG_FUER_SECHSJAEHRIGE.md` |
+| `docs/` | `PROTOCOL.md`, `SECURITY.md`, `ARCHITECTURE.md`, `I18N.md`, `EXTENSION.md`, `ANLEITUNG_FUER_SECHSJAEHRIGE.md` |
 
 ## Entwickeln
 

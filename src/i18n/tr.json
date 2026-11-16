@@ -1471,7 +1471,7 @@
  ],
  "Browser-Plugin": [
   "Browser plugin",
-  "Extension de navigateur",
+  "Plugin de navigateur",
   "浏览器插件",
   "ブラウザプラグイン",
   "Плагин для браузера"
@@ -3246,5 +3246,432 @@
   "每个对话里你都有不同的动物名，没有人能把它们联系起来。你不需要账号。",
   "会話ごとに違う動物の名前が付き、誰も結びつけられません。アカウントは不要です。",
   "В каждом обсуждении у тебя другое имя-животное. Никто не может их связать. Аккаунт не нужен."
+ ],
+ "Webseiten": [
+  "Websites",
+  "Sites web",
+  "网页",
+  "ウェブサイト",
+  "Сайты"
+ ],
+ "Von Webseiten aus mitreden": [
+  "Join in from websites",
+  "Participer depuis les sites web",
+  "从网页参与讨论",
+  "ウェブサイトから参加する",
+  "Участвовать с сайтов"
+ ],
+ "Du bist auf einer Seite und willst darüber sprechen? Mit einem Knopf im Browser öffnest du die passende Unterhaltung. Markierter Text wird zur Textstelle.": [
+  "You are on a page and want to talk about it? One button in your browser opens the matching conversation. Selected text becomes the passage.",
+  "Tu es sur une page et tu veux en parler ? Un bouton dans le navigateur ouvre la conversation correspondante. Le texte sélectionné devient le passage.",
+  "在某个网页上想聊聊？浏览器里的一个按钮就能打开对应的对话。选中的文字会成为讨论的段落。",
+  "ページについて話したいですか？ブラウザのボタンひとつで、対応する会話が開きます。選択した文章は該当箇所になります。",
+  "Ты на странице и хочешь её обсудить? Одна кнопка в браузере откроет подходящее обсуждение. Выделенный текст станет отрывком."
+ ],
+ "Lesezeichen": [
+  "Bookmark",
+  "Marque-page",
+  "书签",
+  "ブックマーク",
+  "Закладка"
+ ],
+ "Für alle Browser": [
+  "For all browsers",
+  "Pour tous les navigateurs",
+  "适用于所有浏览器",
+  "すべてのブラウザ向け",
+  "Для всех браузеров"
+ ],
+ "Ohne Installation, auch auf dem Handy. Zieh den Knopf in die Lesezeichenleiste. Auf einer Seite tippst du ihn an, und die Unterhaltung öffnet sich.": [
+  "No installation, also on your phone. Drag the button into your bookmarks bar. On a page you tap it and the conversation opens.",
+  "Sans installation, aussi sur le téléphone. Glisse le bouton dans la barre de favoris. Sur une page, appuie dessus et la conversation s’ouvre.",
+  "无需安装，手机上也能用。把按钮拖到书签栏。在网页上点它，对话就会打开。",
+  "インストール不要、スマホでも使えます。ボタンをブックマークバーにドラッグします。ページ上でタップすると会話が開きます。",
+  "Без установки, и на телефоне. Перетащи кнопку на панель закладок. На странице нажми её, и обсуждение откроется."
+ ],
+ "Auf dem Handy: Lege irgendein Lesezeichen an, bearbeite es und füge diesen Code als Adresse ein.": [
+  "On your phone: create any bookmark, edit it and paste this code as the address.",
+  "Sur le téléphone : crée un favori quelconque, modifie-le et colle ce code comme adresse.",
+  "在手机上：随便添加一个书签，编辑它，把这段代码粘贴为网址。",
+  "スマホでは：適当なブックマークを作り、編集してこのコードをアドレスに貼り付けます。",
+  "На телефоне: создай любую закладку, измени её и вставь этот код как адрес."
+ ],
+ "Code kopieren": [
+  "Copy code",
+  "Copier le code",
+  "复制代码",
+  "コードをコピー",
+  "Скопировать код"
+ ],
+ "Achtung:": [
+  "Note:",
+  "Attention :",
+  "注意：",
+  "注意：",
+  "Внимание:"
+ ],
+ "Diese App läuft als Datei. Browser verbieten Webseiten, Dateien zu öffnen. Das Lesezeichen geht nur, wenn die App unter einer Webadresse liegt (zum Beispiel vom Vermittler oder von deinem Webspace). Das Plugin unten geht auch mit einer Datei.": [
+  "This app runs as a file. Browsers do not let websites open files. The bookmark only works if the app is on a web address (for example from the relay or your web space). The plugin below also works with a file.",
+  "Cette app s’exécute comme fichier. Les navigateurs interdisent aux sites d’ouvrir des fichiers. Le favori ne marche que si l’app est à une adresse web (par exemple depuis l’intermédiaire ou ton hébergement). Le plugin ci-dessous marche aussi avec un fichier.",
+  "此应用以文件形式运行。浏览器不允许网页打开文件。只有当应用位于网址上（例如来自中继或你的网站空间）时，书签才有效。下面的插件在文件形式下也能用。",
+  "このアプリはファイルとして動いています。ブラウザはウェブページからファイルを開くことを禁止しています。ブックマークはアプリがウェブアドレスにあるときだけ使えます（仲介サービスや自分のウェブスペースなど）。下のプラグインはファイルでも使えます。",
+  "Это приложение запущено как файл. Браузеры не дают сайтам открывать файлы. Закладка работает, только если приложение лежит по веб-адресу (например, от посредника или на твоём хостинге). Плагин ниже работает и с файлом."
+ ],
+ "Computer": [
+  "Computer",
+  "Ordinateur",
+  "电脑",
+  "パソコン",
+  "Компьютер"
+ ],
+ "Rechtsklick auf Seite, Link oder markierten Text, dann „Mit Outernet besprechen“. Die Adresse dieser App ist schon eingetragen.": [
+  "Right-click a page, link or selected text, then “Discuss with Outernet”. The address of this app is already entered.",
+  "Clic droit sur une page, un lien ou du texte sélectionné, puis « Discuter avec Outernet ». L’adresse de cette app est déjà saisie.",
+  "右键点击网页、链接或选中的文字，然后选“用 Outernet 讨论”。此应用的地址已经填好。",
+  "ページ、リンク、選択した文章を右クリックし、「Outernetで話す」を選びます。このアプリのアドレスは入力済みです。",
+  "Щёлкни правой кнопкой по странице, ссылке или выделенному тексту и выбери «Обсудить в Outernet». Адрес этого приложения уже вписан."
+ ],
+ "Auf dem Handy gibt es für Plugins kaum Unterstützung. Nimm das Lesezeichen.": [
+  "Phones hardly support plugins. Use the bookmark.",
+  "Les téléphones gèrent à peine les plugins. Utilise le favori.",
+  "手机几乎不支持插件。请使用书签。",
+  "スマホではプラグインはほとんど使えません。ブックマークを使いましょう。",
+  "Телефоны почти не поддерживают плагины. Используй закладку."
+ ],
+ "Trotzdem Plugin laden": [
+  "Load plugin anyway",
+  "Charger quand même le plugin",
+  "仍然下载插件",
+  "それでもプラグインを読み込む",
+  "Всё равно загрузить плагин"
+ ],
+ "Dein Browser": [
+  "Your browser",
+  "Ton navigateur",
+  "你的浏览器",
+  "お使いのブラウザ",
+  "Твой браузер"
+ ],
+ "Plugin laden": [
+  "Get plugin",
+  "Télécharger le plugin",
+  "下载插件",
+  "プラグインを入手",
+  "Скачать плагин"
+ ],
+ "Entpacke die ZIP-Datei in einen Ordner.": [
+  "Unzip the ZIP file into a folder.",
+  "Décompresse le fichier ZIP dans un dossier.",
+  "把 ZIP 文件解压到一个文件夹。",
+  "ZIPファイルをフォルダに展開します。",
+  "Распакуй ZIP-файл в папку."
+ ],
+ "Öffne chrome://extensions (in Edge: edge://extensions) und schalte „Entwicklermodus“ ein.": [
+  "Open chrome://extensions (in Edge: edge://extensions) and switch on “Developer mode”.",
+  "Ouvre chrome://extensions (dans Edge : edge://extensions) et active le « Mode développeur ».",
+  "打开 chrome://extensions（Edge 中为 edge://extensions），打开“开发者模式”。",
+  "chrome://extensions（Edgeではedge://extensions）を開き、「デベロッパーモード」をオンにします。",
+  "Открой chrome://extensions (в Edge: edge://extensions) и включи «Режим разработчика»."
+ ],
+ "Wähle „Entpackte Erweiterung laden“ und den Ordner.": [
+  "Choose “Load unpacked” and the folder.",
+  "Choisis « Charger l’extension non empaquetée » et le dossier.",
+  "选择“加载已解压的扩展程序”并选中该文件夹。",
+  "「パッケージ化されていない拡張機能を読み込む」を選び、フォルダを指定します。",
+  "Выбери «Загрузить распакованное расширение» и папку."
+ ],
+ "Öffne about:debugging#/runtime/this-firefox.": [
+  "Open about:debugging#/runtime/this-firefox.",
+  "Ouvre about:debugging#/runtime/this-firefox.",
+  "打开 about:debugging#/runtime/this-firefox。",
+  "about:debugging#/runtime/this-firefox を開きます。",
+  "Открой about:debugging#/runtime/this-firefox."
+ ],
+ "Wähle „Temporäres Add-on laden“ und dann die ZIP-Datei. Nicht entpacken.": [
+  "Choose “Load Temporary Add-on” and then the ZIP file. Do not unzip it.",
+  "Choisis « Charger un module complémentaire temporaire » puis le fichier ZIP. Ne le décompresse pas.",
+  "选择“临时载入附加组件”，然后选 ZIP 文件。不要解压。",
+  "「一時的なアドオンを読み込む」を選び、ZIPファイルを指定します。展開しないでください。",
+  "Выбери «Загрузить временное дополнение» и затем ZIP-файл. Не распаковывай."
+ ],
+ "Das gilt, bis Firefox neu startet. Dauerhaft geht es nur mit einer kostenlosen Signatur von addons.mozilla.org (Anleitung in docs/EXTENSION.md).": [
+  "This lasts until Firefox restarts. For a permanent install you need a free signature from addons.mozilla.org (guide in docs/EXTENSION.md).",
+  "Cela dure jusqu’au redémarrage de Firefox. Pour une installation durable, il faut une signature gratuite d’addons.mozilla.org (guide dans docs/EXTENSION.md).",
+  "这只在 Firefox 重启前有效。要永久安装，需要 addons.mozilla.org 的免费签名（说明见 docs/EXTENSION.md）。",
+  "Firefoxを再起動するまで有効です。永続的に使うには addons.mozilla.org の無料の署名が必要です（手順は docs/EXTENSION.md）。",
+  "Действует до перезапуска Firefox. Для постоянной установки нужна бесплатная подпись addons.mozilla.org (инструкция в docs/EXTENSION.md)."
+ ],
+ "Safari verlangt Apples Entwicklerwerkzeuge (Xcode, nur Mac). Die ZIP enthält die Anleitung SAFARI.txt mit zwei Befehlen.": [
+  "Safari requires Apple’s developer tools (Xcode, Mac only). The ZIP contains a guide, SAFARI.txt, with two commands.",
+  "Safari exige les outils de développement d’Apple (Xcode, Mac uniquement). Le ZIP contient un guide, SAFARI.txt, avec deux commandes.",
+  "Safari 需要苹果的开发工具（Xcode，仅限 Mac）。ZIP 中有说明文件 SAFARI.txt，只需两条命令。",
+  "SafariにはAppleの開発ツール（Xcode、Macのみ）が必要です。ZIPの中のSAFARI.txtに2つのコマンドが書いてあります。",
+  "Safari требует инструменты разработчика Apple (Xcode, только Mac). В ZIP есть инструкция SAFARI.txt с двумя командами."
+ ],
+ "Auf iPhone und iPad geht das nicht. Nutze dort das Lesezeichen.": [
+  "This does not work on iPhone and iPad. Use the bookmark there.",
+  "Cela ne marche pas sur iPhone et iPad. Utilise le favori.",
+  "iPhone 和 iPad 上无法使用。请改用书签。",
+  "iPhoneとiPadでは使えません。そこではブックマークを使いましょう。",
+  "На iPhone и iPad это не работает. Используй там закладку."
+ ],
+ "Das Plugin ist nur ein Startknopf. Es sendet nichts, lädt nichts und kennt deine Unterhaltungen nicht.": [
+  "The plugin is just a start button. It sends nothing, loads nothing and does not know your conversations.",
+  "Le plugin n’est qu’un bouton de démarrage. Il n’envoie rien, ne charge rien et ne connaît pas tes conversations.",
+  "插件只是一个启动按钮。它不发送任何内容，不加载任何内容，也不了解你的对话。",
+  "プラグインは起動ボタンにすぎません。何も送らず、何も読み込まず、あなたの会話も知りません。",
+  "Плагин — просто кнопка запуска. Он ничего не отправляет, ничего не загружает и не знает твоих обсуждений."
+ ],
+ "Ganz ohne Zusatz": [
+  "With nothing extra",
+  "Sans rien d’autre",
+  "什么都不装",
+  "何も入れずに",
+  "Совсем без добавок"
+ ],
+ "Kopiere die Adresse der Seite. Tippe in der App auf +, wähle „Webseite“ und füge sie ein.": [
+  "Copy the address of the page. In the app tap +, choose “Web page” and paste it.",
+  "Copie l’adresse de la page. Dans l’app, appuie sur +, choisis « Page web » et colle-la.",
+  "复制网页地址。在应用里点 +，选“网页”，粘贴即可。",
+  "ページのアドレスをコピーします。アプリで＋をタップし、「ウェブページ」を選んで貼り付けます。",
+  "Скопируй адрес страницы. В приложении нажми +, выбери «Веб-страница» и вставь его."
+ ],
+ "Nicht antippen, sondern in die Lesezeichenleiste ziehen.": [
+  "Do not tap it. Drag it into the bookmarks bar.",
+  "Ne touche pas. Glisse-le dans la barre de favoris.",
+  "不要点它，而是拖到书签栏。",
+  "タップせず、ブックマークバーにドラッグしてください。",
+  "Не нажимай, а перетащи на панель закладок."
+ ],
+ "Plugin geladen. Folge den Schritten darüber.": [
+  "Plugin downloaded. Follow the steps above.",
+  "Plugin téléchargé. Suis les étapes ci-dessus.",
+  "插件已下载。请按上面的步骤操作。",
+  "プラグインを保存しました。上の手順に従ってください。",
+  "Плагин скачан. Выполни шаги выше."
+ ],
+ "Das Plugin konnte nicht erzeugt werden.": [
+  "The plugin could not be created.",
+  "Le plugin n’a pas pu être créé.",
+  "无法生成插件。",
+  "プラグインを作成できませんでした。",
+  "Не удалось создать плагин."
+ ],
+ "Verbindungen: {n}": [
+  "Connections: {n}",
+  "Connexions : {n}",
+  "连接数：{n}",
+  "つながり：{n}",
+  "Связей: {n}"
+ ],
+ "Angabe des Absenders: So viele Verbindungen hatte dieser Mensch beim Schreiben. Nicht geprüft.": [
+  "Stated by the sender: this many connections this person had when writing. Not verified.",
+  "Indiqué par l’auteur : nombre de connexions de cette personne à l’écriture. Non vérifié.",
+  "发送者自述：此人写下这条内容时的连接数。未经核实。",
+  "送信者の自己申告：書いた時点でのつながりの数です。確認されていません。",
+  "Со слов автора: столько связей было у этого человека при написании. Не проверено."
+ ],
+ "Meine Verbindungen neben dem Namen zeigen": [
+  "Show my connections next to my name",
+  "Afficher mes connexions à côté de mon nom",
+  "在我的名字旁显示我的连接数",
+  "名前の横につながりの数を表示する",
+  "Показывать мои связи рядом с именем"
+ ],
+ "Zeigt grob, mit wie vielen Menschen du dich schon ausgetauscht hast (zum Beispiel 10 oder 3K). Die Zahl ist deine Angabe und wird nicht geprüft. Sie ist gerundet, damit man dich nicht wiedererkennt. Jetzt: {n}": [
+  "Shows roughly how many people you have exchanged with (for example 10 or 3K). The number is your own statement and is not verified. It is rounded so nobody can recognize you. Now: {n}",
+  "Montre à peu près avec combien de personnes tu as échangé (par exemple 10 ou 3K). Le nombre est ta propre déclaration et n’est pas vérifié. Il est arrondi pour qu’on ne te reconnaisse pas. Maintenant : {n}",
+  "大致显示你已与多少人交换过（例如 10 或 3K）。该数字由你自己提供，未经核实。数字已取整，以免被人认出。当前：{n}",
+  "これまで何人と交換したかをおおよそ表示します（例：10や3K）。この数は自己申告で、確認されません。見分けられないよう丸められます。現在：{n}",
+  "Показывает примерно, со сколькими людьми ты обменивался (например, 10 или 3K). Число — твои слова, оно не проверяется. Оно округлено, чтобы тебя не узнали. Сейчас: {n}"
+ ],
+ "Ja": [
+  "Yes",
+  "Oui",
+  "是",
+  "はい",
+  "Да"
+ ],
+ "Nein": [
+  "No",
+  "Non",
+  "否",
+  "いいえ",
+  "Нет"
+ ],
+ "Was bedeutet die Zahl neben einem Namen?": [
+  "What does the number next to a name mean?",
+  "Que signifie le nombre à côté d’un nom ?",
+  "名字旁边的数字是什么意思？",
+  "名前の横の数字は何ですか？",
+  "Что значит число рядом с именем?"
+ ],
+ "So viele Verbindungen mit Menschen hatte die Person beim Schreiben, grob gerundet. Es ist ihre eigene Angabe und nicht geprüft. Sie sagt nichts darüber, ob etwas stimmt.": [
+  "This many connections with people the person had when writing, roughly rounded. It is their own statement and not verified. It says nothing about whether something is true.",
+  "Nombre de connexions avec des personnes qu’avait l’auteur à l’écriture, arrondi. C’est sa propre déclaration, non vérifiée. Cela ne dit rien sur la véracité.",
+  "此人写下内容时与他人的连接数，已大致取整。这是其自述，未经核实，也不说明内容是否属实。",
+  "書いた時点でその人が持っていた人とのつながりの数（おおよそ）。本人の申告で、確認されていません。内容が正しいかどうかとは無関係です。",
+  "Столько связей с людьми было у автора при написании, округлённо. Это его слова, не проверено. Это ничего не говорит о правдивости."
+ ],
+ "Screenshot (optional)": [
+  "Screenshot (optional)",
+  "Capture d’écran (facultatif)",
+  "截图（可选）",
+  "スクリーンショット（任意）",
+  "Скриншот (необязательно)"
+ ],
+ "Bild aus Datei oder Galerie": [
+  "Image from file or gallery",
+  "Image depuis un fichier ou la galerie",
+  "从文件或相册选图",
+  "ファイルまたはギャラリーから画像",
+  "Изображение из файла или галереи"
+ ],
+ "Bild entfernen": [
+  "Remove image",
+  "Retirer l’image",
+  "移除图片",
+  "画像を削除",
+  "Убрать изображение"
+ ],
+ "Automatisch einen Screenshot anfügen?": [
+  "Add a screenshot automatically?",
+  "Ajouter une capture d’écran automatiquement ?",
+  "自动附上截图？",
+  "スクリーンショットを自動で付けますか？",
+  "Добавить скриншот автоматически?"
+ ],
+ "Dafür wird die Adresse der Seite an einen Screenshot-Dienst gesendet. Der Dienst sieht dann, welche Seite du besprichst.": [
+  "For this, the page address is sent to a screenshot service. The service then sees which page you are discussing.",
+  "Pour cela, l’adresse de la page est envoyée à un service de capture. Le service voit alors quelle page tu discutes.",
+  "为此，网页地址会发送给截图服务，该服务就能看到你在讨论哪个网页。",
+  "そのため、ページのアドレスをスクリーンショットサービスに送ります。サービスは、どのページについて話しているかを知ることになります。",
+  "Для этого адрес страницы отправляется сервису скриншотов. Сервис увидит, какую страницу ты обсуждаешь."
+ ],
+ "Ja, Microlink nutzen": [
+  "Yes, use Microlink",
+  "Oui, utiliser Microlink",
+  "是，使用 Microlink",
+  "はい、Microlinkを使う",
+  "Да, использовать Microlink"
+ ],
+ "Eigenen Dienst eintragen": [
+  "Enter my own service",
+  "Saisir mon propre service",
+  "填写自己的服务",
+  "自分のサービスを入力",
+  "Указать свой сервис"
+ ],
+ "Nein, danke": [
+  "No, thanks",
+  "Non, merci",
+  "不用了",
+  "いいえ、結構です",
+  "Нет, спасибо"
+ ],
+ "Die Adresse muss {url} enthalten.": [
+  "The address must contain {url}.",
+  "L’adresse doit contenir {url}.",
+  "地址必须包含 {url}。",
+  "アドレスには {url} を含める必要があります。",
+  "Адрес должен содержать {url}."
+ ],
+ "Kein automatischer Screenshot. Du kannst selbst ein Bild anfügen.": [
+  "No automatic screenshot. You can attach an image yourself.",
+  "Pas de capture automatique. Tu peux joindre une image toi-même.",
+  "没有自动截图。你可以自己附上图片。",
+  "自動スクリーンショットはありません。自分で画像を付けられます。",
+  "Автоматического скриншота нет. Можешь приложить изображение сам."
+ ],
+ "Screenshot wird erstellt …": [
+  "Creating screenshot …",
+  "Capture en cours …",
+  "正在生成截图……",
+  "スクリーンショットを作成中…",
+  "Создаётся скриншот …"
+ ],
+ "Screenshot angefügt. Du kannst ihn entfernen.": [
+  "Screenshot attached. You can remove it.",
+  "Capture jointe. Tu peux la retirer.",
+  "截图已附上。你可以移除它。",
+  "スクリーンショットを付けました。削除もできます。",
+  "Скриншот приложен. Его можно убрать."
+ ],
+ "Der Screenshot hat nicht geklappt. Du kannst selbst ein Bild anfügen.": [
+  "The screenshot did not work. You can attach an image yourself.",
+  "La capture n’a pas fonctionné. Tu peux joindre une image toi-même.",
+  "截图失败。你可以自己附上图片。",
+  "スクリーンショットに失敗しました。自分で画像を付けられます。",
+  "Скриншот не получился. Можешь приложить изображение сам."
+ ],
+ "Eigenes Bild angefügt.": [
+  "Your own image attached.",
+  "Ta propre image est jointe.",
+  "已附上你自己的图片。",
+  "自分の画像を付けました。",
+  "Твоё изображение приложено."
+ ],
+ "Das Bild konnte nicht gelesen werden.": [
+  "The image could not be read.",
+  "L’image n’a pas pu être lue.",
+  "无法读取图片。",
+  "画像を読み込めませんでした。",
+  "Не удалось прочитать изображение."
+ ],
+ "Screenshot der Seite": [
+  "Screenshot of the page",
+  "Capture d’écran de la page",
+  "网页截图",
+  "ページのスクリーンショット",
+  "Скриншот страницы"
+ ],
+ "Bild vom Ersteller. Nicht geprüft.": [
+  "Image from the author. Not verified.",
+  "Image de l’auteur. Non vérifiée.",
+  "来自发起者的图片。未经核实。",
+  "作成者の画像です。確認されていません。",
+  "Изображение от автора. Не проверено."
+ ],
+ "Screenshot zurückgestellt": [
+  "Screenshot postponed",
+  "Capture reportée",
+  "截图已推迟",
+  "スクリーンショットは後回し",
+  "Скриншот отложен"
+ ],
+ "Screenshot fehlt noch": [
+  "Screenshot still missing",
+  "Capture manquante",
+  "截图尚缺",
+  "スクリーンショットがまだありません",
+  "Скриншот ещё не получен"
+ ],
+ "Screenshot-Dienst": [
+  "Screenshot service",
+  "Service de capture d’écran",
+  "截图服务",
+  "スクリーンショットサービス",
+  "Сервис скриншотов"
+ ],
+ "Aus": [
+  "Off",
+  "Désactivé",
+  "关",
+  "オフ",
+  "Выкл."
+ ],
+ "Eigener": [
+  "Own",
+  "Perso",
+  "自建",
+  "自分用",
+  "Свой"
+ ],
+ "Der Dienst bekommt die Adresse der Seite. Microlink ist gratis, aber auf wenige Screenshots pro Tag begrenzt.": [
+  "The service gets the page address. Microlink is free but limited to a few screenshots per day.",
+  "Le service reçoit l’adresse de la page. Microlink est gratuit mais limité à quelques captures par jour.",
+  "服务会收到网页地址。Microlink 免费，但每天只能截几张图。",
+  "サービスにはページのアドレスが渡されます。Microlinkは無料ですが、1日の枚数に限りがあります。",
+  "Сервис получает адрес страницы. Microlink бесплатный, но число скриншотов в день ограничено."
  ]
 }

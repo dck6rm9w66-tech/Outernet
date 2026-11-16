@@ -16,5 +16,8 @@ assert s.startswith(pre_f) and s.endswith(post_f), 'Struktur außerhalb von app.
 body = s[len(pre_f):len(s) - len(post_f)]
 m = re.search(r"const TR=(\{.*?\});\nconst PAT=", body, re.S)
 json.dump(json.loads(m.group(1)), open(ROOT / 'src' / 'i18n' / 'tr.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-(ROOT / 'src' / 'app.js').write_text(body[:m.start(1)] + '/*@TR@*/' + body[m.end(1):], encoding='utf-8')
+body = body[:m.start(1)] + '/*@TR@*/' + body[m.end(1):]
+me = re.search(r"const EXT=(\{.*?\});\n", body, re.S)
+if me: body = body[:me.start(1)] + '/*@EXT@*/' + body[me.end(1):]  # Plugin-Dateien kommen aus extension/, nicht aus der App
+(ROOT / 'src' / 'app.js').write_text(body, encoding='utf-8')
 print('src/app.js und src/i18n/tr.json aktualisiert')

@@ -1,5 +1,12 @@
 # Änderungen
 
+## 0.3.2
+- Automatischer Screenshot beim Start einer Unterhaltung zu einer Webseite (nur nach Zustimmung, Microlink oder eigener Dienst), oder eigenes Bild aus Datei oder Galerie.
+- Verbindungszahl (gerundet, abschaltbar) neben Namen in Unterhaltungen.
+
+## 0.3.1
+- „Webseiten“ (vorher „Browser-Plugin“): Lesezeichen für alle Browser, Plugin-Download für Chrome, Firefox und Safari direkt aus der App, mit eingetragener App-Adresse und Anleitung. Plugin mit Link-Rechtsklick, Tastenkürzel und Symbolen.
+
 ## 0.3.0
 - Quellcode in `src/`, Bau-Skript, Tests im Repository, Lizenz (MIT), Mitmach-Dokumente und CI.
 - Besondere Auszeichnungen sind kostenlos und werden durch Austausch freigeschaltet. Das Bezahlsystem ist entfernt.

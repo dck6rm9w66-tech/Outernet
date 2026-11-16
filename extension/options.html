@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="de"><meta charset="utf-8"><title>Outernet</title>
-<style>body{font:16px/1.5 system-ui,sans-serif;max-width:560px;margin:40px auto;padding:0 16px}input{width:100%;padding:10px;font:inherit;margin:8px 0}button{padding:10px 16px;font:inherit}#s{color:#0f766e}</style>
+<style>body{font:16px/1.5 system-ui,sans-serif;max-width:560px;margin:40px auto;padding:0 16px}input{width:100%;padding:10px;font:inherit;margin:8px 0;box-sizing:border-box}button{padding:10px 16px;font:inherit}#s{color:#0f766e}small{color:#555}</style>
 <h1>Outernet</h1>
-<p>Trage die Adresse deiner Outernet-App ein. Du findest sie in der App unter <b>Teilen → Browser-Plugin</b>.</p>
-<input id="u" type="url" placeholder="file:///…/app.html oder https://…">
+<p>Hier steht die Adresse deiner Outernet-App. Wenn du das Plugin aus der App geladen hast, ist sie schon eingetragen.</p>
+<input id="u" type="url" placeholder="https://… oder file:///…/app.html">
 <button id="b">Speichern</button> <span id="s" role="status"></span>
+<p><small>Benutzen: Rechtsklick auf eine Seite, einen Link oder markierten Text, dann „Mit Outernet besprechen“. Oder auf das Outernet-Symbol klicken (Tastenkürzel: Alt+Shift+O).</small></p>
 <script src="options.js"></script>

@@ -7,6 +7,6 @@ const rd = f => fs.readFileSync(path.join(root, f), 'utf8');
 check('src/early.js', rd('src/early.js'));
 check('src/vendor/qrcode-generator.js', rd('src/vendor/qrcode-generator.js'));
 check('src/vendor/jsqr.js', rd('src/vendor/jsqr.js'));
-check('src/app.js', rd('src/app.js').replace('/*@TR@*/', '{}'));
+check('src/app.js', rd('src/app.js').replace('/*@TR@*/', '{}').replace('/*@EXT@*/', '{}'));
 for (const f of ['relay/server.js', 'extension/background.js', 'extension/options.js']) check(f, rd(f));
 if (bad) process.exit(1); console.log('ok:', n, 'Dateien gültig');

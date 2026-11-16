@@ -16,6 +16,11 @@ Alle Objekte sind JSON, kanonisch serialisiert (sortierte Schlüssel), und trage
 | `vote` | `thread`, `target`, `dir` (+1/-1) | Pfeil hoch/runter auf Thread oder Kommentar. Pro Autor und Ziel zählt die neueste Stimme. |
 | `award` | `thread`, `target`, `kind`, `tier` | Auszeichnung. `tier` = `free` (einmal pro Autor und Art) oder `premium` (besondere Auszeichnung: Silber, Gold, Platin). Es gibt keine Belege und keine Zahlung. |
 
+### Zusatzfelder
+
+- `root.shot` = `{hash, size, m}`: Screenshot oder Bild zum Start der Unterhaltung. `hash` verweist auf einen `blob` (Base64), `m` ist `image/jpeg`, `image/png` oder `image/webp`. Das Bild wird vom Ersteller angefügt und ist **nicht geprüft** (es kann jede beliebige Seite zeigen). Es unterliegt den normalen Anhang-Regeln (Größengrenzen, Zurückstellen).
+- `comment.cn`: Verbindungszahl des Absenders beim Schreiben. Ganzzahl 0 bis 1e10, **auf eine gültige Ziffer gerundet** (0–9, danach 10, 20 … 90, 100 …). Andere Werte lehnt `validate` ab. Die Zahl ist eine Selbstangabe, nicht überprüfbar, und fließt nicht in Rankings ein. Sie wird gerundet, damit sich Namen verschiedener Unterhaltungen desselben Menschen nicht verknüpfen lassen. Wer sie nicht zeigen will, lässt das Feld weg (Einstellung „Ich“).
+
 ## Schlüssel und Anonymität
 
 - Master-Schlüssel nur lokal. Pro Thread wird `HKDF(master, "thread:"+threadId)` abgeleitet, daher sind Threads nicht verknüpfbar.
@@ -63,3 +68,12 @@ Jede Übertragung besteht aus **fertigen Einzelpaketen**. Was angekommen ist, wi
 - Der Empfänger entscheidet je Anhang anhand seiner Einstellungen (`att`: alle, nur kleine bis 300 KB, keine; `cap`: Megabyte je Austausch). Abgelehnte Anhänge werden nicht angefordert, sondern in `defer` vermerkt.
 - Beim QR-Weg werden Bilder mit Anhang-Bruchstücken, die abgelehnt wurden, nicht als empfangen gezählt. Sie kommen bei einem späteren Durchlauf erneut in Frage.
 - „Beim nächsten Austausch laden“ setzt `pull`. Im nächsten Austausch gelten die Grenzen nicht, danach wird `pull` zurückgesetzt. Das Nachladen ist also nur Beginn eines normalen Austauschs mit anderer Entscheidung, kein eigenes Protokoll.
+
+## Screenshot-Dienst
+
+Beim Start einer Unterhaltung zu einer Webseite kann die App automatisch einen Screenshot anfügen. Ein Browser darf fremde Seiten nicht selbst abbilden. Dafür ist ein Dienst nötig, der die Seite aufruft. Deshalb gilt:
+
+- **Opt-in:** Vor der ersten Nutzung fragt die App, ob die Adresse an einen Dienst gesendet werden darf (Microlink, eigener Dienst oder nein). Davor wird nichts gesendet.
+- Der Dienst sieht die Adresse der Seite. Private Adressen (`localhost`, `192.168.…`, `.local` und Ähnliches) werden nie gesendet.
+- **Eigener Dienst:** Adresse mit Platzhalter `{url}`, zum Beispiel `https://dienst.example/shot?url={url}`. Er darf ein Bild liefern (`Content-Type: image/*`) oder JSON mit `data.screenshot.url` (wie Microlink) oder `screenshot`/`url`. CORS muss den Abruf aus der App erlauben.
+- Alternativ wählt man selbst ein Bild aus Datei oder Galerie. Der Screenshot wird in der App verkleinert (Einstellung „Bildqualität“).

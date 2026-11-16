@@ -43,3 +43,9 @@ Es gibt keine Zentrale, die Inhalte prüft. Deshalb gilt: **Jedes Gerät misstra
 ## Getestet
 
 `tests/test_security.py` (Angriffstests im Browser): 24 Prüfungen, darunter 17 feindliche Objekte, Einschleusen an der Prüfung vorbei, Duplikat- und Link-Flut, Pro-Autor-Limit, Speicher-Aufräumen, bösartige Gegenstelle über WebRTC, Ausblenden, Prüfsumme (Original, Markup- und Code-Änderung) und die Sperre durch die Content-Security-Policy.
+
+## Screenshots und Verbindungszahl
+
+- Screenshots (`root.shot`) und die Verbindungszahl (`comment.cn`) sind **Angaben des Absenders** und nicht überprüfbar. Ein Screenshot kann eine andere Seite zeigen, die Zahl kann übertrieben sein. Die Oberfläche beschriftet beides als „nicht geprüft“. Die Zahl wirkt nicht auf Rankings.
+- Die Zahl ist auf eine gültige Ziffer gerundet und abschaltbar, damit sie nicht zum Wiedererkennen taugt. Ungerundete oder ungültige Werte werden beim Empfang verworfen (`tests/test_screenshot.py`).
+- Der Screenshot-Dienst wird nur nach Zustimmung genutzt, bekommt nur öffentliche Adressen und die App sendet ihm keine Cookies oder Referrer.
