@@ -1,5 +1,13 @@
 # Änderungen
 
+## 0.3.3
+
+- Härtung gegen umgebaute Clients: Bilder werden erst nach Prüfung von Typ und Größe angezeigt, Dateinamen gesäubert, Premium-Auszeichnungen pro Schlüssel auf 3 begrenzt, Antworten höchstens 20 Ebenen tief, Ähnlichkeitssuche begrenzt, Zeitstempel höchstens 2 Stunden in der Zukunft. Neuer Test `test_hardening.py`.
+- Beispieldaten enthalten jetzt ein Screenshot-Bild, ein Foto und eine Datei. Bei ausgeschlossenen Anhängen zeigen sie Platzhalter.
+- Neu: Wer Bilder und Dateien ausschließt, sieht in Unterhaltungen Platzhalter (Art, Name, Größe) mit Button zum Wieder-Einschalten, bis er es ändert. Zurückgestellte Anhänge zeigen ebenfalls einen Platzhalter.
+- Neu: Beim QR-Austausch lässt sich die Anhang-Begrenzung für diesen einen Austausch aufheben (mit Warnung vor sehr langer Dauer). Gilt für Senden und Empfangen, wird beim Schließen zurückgesetzt.
+- Neu: Button „Was ist Outernet?“ im FAQ. Adressen ohne https:// lösen den Screenshot aus.
+
 ## 0.3.2
 - Automatischer Screenshot beim Start einer Unterhaltung zu einer Webseite (nur nach Zustimmung, Microlink oder eigener Dienst), oder eigenes Bild aus Datei oder Galerie.
 - Verbindungszahl (gerundet, abschaltbar) neben Namen in Unterhaltungen.

@@ -33,7 +33,7 @@ with sync_playwright() as p:
         pg.evaluate("()=>newSheet(1,{kind:'page'})") ; pg.wait_for_timeout(500)
     # 1) Einwilligung wird abgefragt, vorher kein Netzverkehr
     pg.evaluate("()=>newSheet(1,{kind:'page'})"); pg.wait_for_selector('#nu')
-    pg.fill('#nu', 'https://beispiel.example/artikel'); pg.wait_for_selector('[data-a=sv1]', timeout=5000)
+    pg.fill('#nu', 'beispiel.example/artikel'); pg.wait_for_selector('[data-a=sv1]', timeout=5000)
     assert not hits, 'Es wurde etwas gesendet, bevor der Nutzer zugestimmt hat'
     print('Einwilligung gefragt, nichts gesendet')
     pg.screenshot(path=OUT + '/shot_consent.png')

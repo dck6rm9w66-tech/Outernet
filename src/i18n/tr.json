@@ -3680,5 +3680,75 @@
   "Outernet 是什么？",
   "Outernet とは？",
   "Что такое Outernet?"
+ ],
+ "Bilder und Dateien trotzdem per QR übertragen": [
+  "Transfer images and files via QR anyway",
+  "Transférer quand même les images et fichiers par QR",
+  "仍然通过二维码传输图片和文件",
+  "それでも画像とファイルをQRで転送する",
+  "Всё равно передавать изображения и файлы по QR"
+ ],
+ "Deine Einstellung begrenzt Anhänge. Hier hebst du das nur für diesen Austausch auf.": [
+  "Your setting limits attachments. Here you lift it for this exchange only.",
+  "Ton réglage limite les pièces jointes. Ici, tu le lèves pour cet échange seulement.",
+  "你的设置限制了附件。在这里仅对本次交换解除限制。",
+  "設定で添付が制限されています。ここでは今回の交換に限って解除します。",
+  "Твои настройки ограничивают вложения. Здесь ты снимаешь ограничение только для этого обмена."
+ ],
+ "Achtung: Das dauert sehr lange.": [
+  "Warning: this takes a very long time.",
+  "Attention : cela prend très longtemps.",
+  "注意：这会花很长时间。",
+  "注意：とても時間がかかります。",
+  "Внимание: это займёт очень много времени."
+ ],
+ "Per QR-Code ist die Übertragung langsam. Ein Bild von 1 MB braucht etwa 10 Minuten, größere Dateien entsprechend länger. Beide Handys müssen die ganze Zeit ruhig aufeinander gerichtet bleiben. Per WLAN oder Datei geht es viel schneller.": [
+  "Transfer via QR code is slow. A 1 MB image takes about 10 minutes, larger files take longer. Both phones must stay pointed at each other the whole time. Over Wi-Fi or as a file it is much faster.",
+  "Le transfert par code QR est lent. Une image de 1 Mo prend environ 10 minutes, les fichiers plus gros plus longtemps. Les deux téléphones doivent rester face à face tout ce temps. Par Wi-Fi ou en fichier, c’est bien plus rapide.",
+  "通过二维码传输很慢。1 MB 的图片大约需要 10 分钟，更大的文件需要更久。两部手机必须一直保持对准。通过 WLAN 或文件要快得多。",
+  "QRコードでの転送は遅く、1 MBの画像で約10分、大きなファイルはさらにかかります。その間、2台のスマホをずっと向け合う必要があります。Wi-Fiやファイルならずっと速くなります。",
+  "Передача по QR-коду медленная. Изображение в 1 МБ занимает около 10 минут, большие файлы — дольше. Оба телефона всё это время должны быть направлены друг на друга. По Wi-Fi или файлом гораздо быстрее."
+ ],
+ "Platzhalter": [
+  "Placeholder",
+  "Espace réservé",
+  "占位符",
+  "プレースホルダー",
+  "Заглушка"
+ ],
+ "Du empfängst gerade keine Bilder und Dateien. Das bleibt so, bis du es änderst.": [
+  "You are currently not receiving images and files. This stays so until you change it.",
+  "Tu ne reçois pas d’images ni de fichiers pour le moment. Cela reste ainsi jusqu’à ce que tu le changes.",
+  "你目前不接收图片和文件。在你更改之前会一直如此。",
+  "現在、画像とファイルは受信していません。変更するまでこのままです。",
+  "Сейчас ты не получаешь изображения и файлы. Так будет, пока ты не изменишь это."
+ ],
+ "Zurückgestellt. Sie liegt bei anderen Nutzern und kann später geladen werden.": [
+  "Postponed. It is with other users and can be loaded later.",
+  "Mis de côté. Elle se trouve chez d’autres personnes et peut être chargée plus tard.",
+  "已暂缓。它在其他用户那里，可以稍后加载。",
+  "後回しにしました。他のユーザーが持っていて、後で読み込めます。",
+  "Отложено. Она у других пользователей, её можно загрузить позже."
+ ],
+ "Bilder und Dateien wieder empfangen": [
+  "Receive images and files again",
+  "Recevoir à nouveau images et fichiers",
+  "重新接收图片和文件",
+  "画像とファイルを再び受信する",
+  "Снова получать изображения и файлы"
+ ],
+ "Bild ungültig oder zu groß. Nicht angezeigt.": [
+  "Image invalid or too large. Not shown.",
+  "Image invalide ou trop grande. Non affichée.",
+  "图片无效或过大，未显示。",
+  "画像が無効か大きすぎます。表示しません。",
+  "Изображение недопустимо или слишком велико. Не показано."
+ ],
+ "Datei von Unbekannten. Nur öffnen, wenn du dem Absender traust.": [
+  "File from strangers. Only open it if you trust the sender.",
+  "Fichier d’inconnus. Ne l’ouvre que si tu fais confiance à l’expéditeur.",
+  "来自陌生人的文件。仅在信任发送者时才打开。",
+  "知らない人からのファイルです。送信者を信頼できる場合のみ開いてください。",
+  "Файл от незнакомцев. Открывай, только если доверяешь отправителю."
  ]
 }

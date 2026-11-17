@@ -22,6 +22,24 @@ Es gibt keine Zentrale, die Inhalte prüft. Deshalb gilt: **Jedes Gerät misstra
 | Bösartige Gegenstelle im WLAN | Sendet unverlangte oder falsche Daten | Es werden nur Objekte angenommen, die angefordert wurden. Zu viel Ungültiges oder Überlänge bricht die Verbindung ab | Gegenstelle blockiert nur den Austausch |
 | Missbrauch des Vermittlers | Überlastung, Mitlesen | Limits pro Adresse (300 Anfragen und 30 Beitritte pro Minute), maximal 2000 Räume und 50 Personen pro Raum, Größenlimit, Zeitlimit, Prüfung der Empfänger. Er sieht nur Verbindungs-Signale, nie Beiträge | Ein Vermittler kann Verbindungen verweigern. Er kann keine Inhalte fälschen |
 
+## Umgebaute Clients (Forks)
+
+Outernet ist Open Source. Jede Person kann die App ändern und eine eigene Version verteilen, auch mit böser Absicht. Das lässt sich nicht verhindern, und es gibt keine Zentrale, die so etwas sperren könnte. Der Schutz liegt deshalb woanders: **Die Prüfung steckt in jedem empfangenden Gerät.** Ein umgebauter Client kann nur Daten senden. Ob sie angenommen und angezeigt werden, entscheidet die App des Empfängers.
+
+Daraus folgen diese Regeln für den Code:
+
+1. **Nur Prüfungen beim Empfänger zählen.** Was ein Absender "freiwillig" begrenzt (gerundete Verbindungszahl, Bildgröße, Dateityp, Kosten), muss der Empfänger noch einmal prüfen. Das geschieht in `validate()`, `importObjs()` und beim Anzeigen.
+2. **Jedes Feld hat Typ, Länge und Muster.** Neue Felder kommen zuerst in `validate()` und werden nur maskiert (`esc`) ausgegeben.
+3. **Nichts Fremdes läuft als Code.** Texte werden maskiert, Bilder erst nach Prüfung von Kopfzeile, Typ und Größe angezeigt, Dateien nur als Download mit neutralem Typ und gesäubertem Namen, Seitenstände in einer Sandbox ohne Skripte.
+4. **Alles ist begrenzt.** Objekte, Bytes, Objekte pro Autor, Tiefe der Antworten (20 Ebenen), Rechenaufwand der Auswertung (die Ähnlichkeitssuche prüft höchstens die neuesten 300 Kommentare) und Speicher.
+5. **Ein Schlüssel ist kein Gewicht.** Auszeichnungen und Stimmen eines Schlüssels sind pro Beitrag begrenzt (Gratis: einmal pro Art, Premium: höchstens 3). Wer viele Schlüssel erzeugt, zahlt jedes Mal Rechenzeit.
+6. **Zeit ist eng gefasst.** Zeitstempel dürfen höchstens 2 Stunden in der Zukunft liegen. Sonst könnte sich ein Beitrag einen Tag lang oben anheften.
+7. **Nichts Geheimes im Austausch.** Es werden nur öffentliche, signierte Objekte gesendet. Ein böser Client kann daraus nichts Privates lesen, weil nichts Privates dabei ist.
+
+Was ein Fork **nicht** verhindern kann: Er kann seine eigene Nutzerin täuschen (zum Beispiel Schlüssel abgreifen). Darum gilt: App nur aus der offiziellen Quelle laden und die Prüfsumme im Tab "Ich" mit der in den Release-Hinweisen vergleichen. Wer eine geänderte App von Fremden öffnet, ist selbst betroffen. Andere Geräte bleiben geschützt, solange sie die offizielle Version nutzen.
+
+Restrisiken: Eine Flut gültiger, rechenaufwendig erzeugter Beiträge bleibt möglich (teuer, begrenzt, sichtbar eingeklappt). Die Verbindungszahl und Screenshots sind Selbstangaben. Browser-Lücken in der Bildverarbeitung kann die Prüfung der Kopfzeile nur verkleinern, nicht ausschließen.
+
 ## Was jede Person selbst tun kann
 
 - **Ausblenden:** Einen Beitrag, eine Person oder eine ganze Unterhaltung lokal ausblenden. Das gilt nur auf dem eigenen Gerät und lässt sich unter „Ich“ zurücknehmen.
@@ -49,3 +67,5 @@ Es gibt keine Zentrale, die Inhalte prüft. Deshalb gilt: **Jedes Gerät misstra
 - Screenshots (`root.shot`) und die Verbindungszahl (`comment.cn`) sind **Angaben des Absenders** und nicht überprüfbar. Ein Screenshot kann eine andere Seite zeigen, die Zahl kann übertrieben sein. Die Oberfläche beschriftet beides als „nicht geprüft“. Die Zahl wirkt nicht auf Rankings.
 - Die Zahl ist auf eine gültige Ziffer gerundet und abschaltbar, damit sie nicht zum Wiedererkennen taugt. Ungerundete oder ungültige Werte werden beim Empfang verworfen (`tests/test_screenshot.py`).
 - Der Screenshot-Dienst wird nur nach Zustimmung genutzt, bekommt nur öffentliche Adressen und die App sendet ihm keine Cookies oder Referrer.
+
+`tests/test_hardening.py` (12 Prüfungen): Zeitfenster, Kommentarkette von 3000 Ebenen und 5000 Kommentare (schnell, Tiefe begrenzt), Bild-Bomben und falsche Bildtypen, gesäuberte Dateinamen, Begrenzung der Premium-Auszeichnungen, Schadcode in allen Textfeldern und präparierte Links.

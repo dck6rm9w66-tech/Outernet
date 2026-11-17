@@ -112,7 +112,7 @@ async function verifySig(pub,obj,sig){try{const k=await crypto.subtle.importKey(
 async function signObj(unsigned,key){const id=sha(canon(unsigned)),pow=minePow(id,POWT[unsigned.t]||14);const sig=hex(new Uint8Array(await crypto.subtle.sign('Ed25519',key.priv,enc.encode(canon({id,pow})))));return{...unsigned,id,pow,sig}}
 const SUBMAX={name:30,desc:500,rules:500},SUBMIN={name:2,desc:10,rules:10};
 const subOk=o=>['name','desc','rules'].every(k=>typeof o[k]==='string'&&o[k].trim()===o[k]&&o[k].length>=SUBMIN[k]&&o[k].length<=SUBMAX[k])&&!/[\r\n]/.test(o.name)&&typeof o.salt==='string'&&typeof o.ts==='number';
-const LIM={objs:4000,perAuthor:150,roots:300,subs:60,bad:25,bytes:3e7,store:30000,storeBytes:9e7,maxSubs:500,maxJson:16000,skew:864e5,voteMin:40};
+const LIM={objs:4000,perAuthor:150,roots:300,subs:60,bad:25,bytes:3e7,store:30000,storeBytes:9e7,maxSubs:500,maxJson:16000,skew:72e5,voteMin:40};
 const H64=/^[0-9a-f]{64}$/,H128=/^[0-9a-f]{128}$/,B64RE=/^[A-Za-z0-9+\/]*={0,2}$/,MIME=/^[a-z]{3,12}\/[a-z0-9.+-]{1,40}(;[a-z]+=[a-z0-9.,-]{1,30})?$/;
 const IMG=/^image\/(jpeg|png|webp|gif)$/,AUD=/^audio\/(webm|ogg|mp4|mpeg|wav)(;codecs=[a-z0-9.,-]{1,20})?$/;
 const sOK=(x,n)=>typeof x==='string'&&x.length<=n,fin=(x,a,b)=>typeof x==='number'&&Number.isFinite(x)&&x>=a&&x<=b;
@@ -126,6 +126,17 @@ function cnB(n){n=Math.floor(+n)||0;if(n<10)return Math.max(0,n);const p=10**(St
 function cnF(n){const f=(v,u)=>(v%1?v.toFixed(1):v)+u;return n>=1e9?f(n/1e9,'B'):n>=1e6?f(n/1e6,'M'):n>=1e3?f(n/1e3,'K'):String(n)}
 const cnExtra=()=>Meta.get('cnshow',1)?{cn:cnB(Meta.get('met',0)||0)}:{};
 const cnTag=c=>Number.isInteger(c.cn)?`<span class="cn" title="${esc(_('Angabe des Absenders: So viele Verbindungen hatte dieser Mensch beim Schreiben. Nicht geprüft.'))}" aria-label="${esc(_('Verbindungen: {n}',{n:cnF(c.cn)}))}">${ic('people',11)}${cnF(c.cn)}</span>`:'';
+/* Bilder werden erst angezeigt, wenn Kopfzeile und Typ zusammenpassen und die Größe vernünftig ist (Schutz vor Bild-Bomben) */
+function imgDims(mime,b64){try{if(typeof b64!=='string'||b64.length<40)return null;const t=atob(b64.slice(0,200000)),n=t.length,b=i=>t.charCodeAt(i),u16=i=>b(i)<<8|b(i+1),l16=i=>b(i)|b(i+1)<<8;
+ if(mime==='image/png'&&t.startsWith('\x89PNG\r\n\x1a\n'))return[(b(16)<<24|b(17)<<16|b(18)<<8|b(19))>>>0,(b(20)<<24|b(21)<<16|b(22)<<8|b(23))>>>0];
+ if(mime==='image/gif'&&/^GIF8[79]a/.test(t))return[l16(6),l16(8)];
+ if(mime==='image/jpeg'&&b(0)===255&&b(1)===216){let i=2;while(i+9<n){if(b(i)!==255){i++;continue}const m=b(i+1);if(m===255){i++;continue}if(m>=192&&m<=207&&m!==196&&m!==200&&m!==204)return[u16(i+7),u16(i+5)];if(m===216||m===1||(m>=208&&m<=215)){i+=2;continue}i+=2+u16(i+2)}return null}
+ if(mime==='image/webp'&&t.startsWith('RIFF')&&t.slice(8,12)==='WEBP'){const k=t.slice(12,16);if(k==='VP8 ')return[l16(26)&16383,l16(28)&16383];if(k==='VP8L')return[1+((b(22)&63)<<8|b(21)),1+((b(24)&15)<<10|b(23)<<2|b(22)>>6)];if(k==='VP8X')return[1+(b(24)|b(25)<<8|b(26)<<16),1+(b(27)|b(28)<<8|b(29)<<16)]}
+ }catch{}return null}
+function imgSafe(mime,b64){const d=imgDims(mime,b64);return!!d&&d[0]>=1&&d[1]>=1&&d[0]<=10000&&d[1]<=10000&&d[0]*d[1]<=4e7}
+const badImg=()=>`<div class="sm mu">${ic('clip',12)} ${_('Bild ungültig oder zu groß. Nicht angezeigt.')}</div>`;
+/* Dateinamen von Fremden: keine Pfade, keine Steuer- und Umkehrzeichen, keine ausführbaren Endungen */
+function safeName(n){n=String(n||'datei').replace(/[\\/:*?"<>|\u0000-\u001f\u007f\u200b-\u200f\u202a-\u202e\u2066-\u2069\ufeff]/g,'_').replace(/^\.+/,'').slice(0,80)||'datei';return/\.(exe|com|bat|cmd|scr|msi|msp|dll|js|jse|mjs|vbs|vbe|wsf|ps1|psm1|jar|apk|ipa|dmg|app|pkg|sh|bash|lnk|hta|html?|xhtml|svg|php|py|rb|pl|reg|inf|cpl|appx|desktop|command|workflow)$/i.test(n)?n+'.txt':n}
 async function validate(o){
   if(!o||typeof o!=='object'||Array.isArray(o)||typeof o.t!=='string'||typeof o.id!=='string'||!H64.test(o.id))return false;
   if(o.t==='blob')return typeof o.data==='string'&&o.data.length<2.9e6&&B64RE.test(o.data)&&sha(o.data)===o.id;
@@ -211,20 +222,22 @@ const HID=()=>{const h=Meta.get('hid',null)||{};return{o:new Set(h.o||[]),a:new 
 const hideAdd=(k,v)=>{const h=Meta.get('hid',null)||{o:[],a:[]};h[k]=[...new Set([...(h[k]||[]),v])].slice(-2000);Meta.set('hid',h)};
 const hidCount=()=>{const h=HID();return h.o.size+h.a.size};
 function tally(evs,id){const l=new Map();for(const e of evs)if(e.t==='vote'&&e.target===id&&(!l.has(e.author)||l.get(e.author).ts<=e.ts))l.set(e.author,e);const cnt=new Map(),mt=multiAuth();let u=0,d=0;for(const v of [...l.values()].sort((a,b)=>a.id<b.id?-1:1)){if(mt.has(v.author))continue;const bk=Math.floor(v.ts/60000),c=(cnt.get(bk)||0)+1;cnt.set(bk,c);if(c>LIM.voteMin)continue;v.dir===1?u++:d++}return{u,d,mine:l}}
-function awardsOf(evs,id){const seen=new Set(),c={};let w=0;for(const e of evs){if(e.t!=='award'||e.target!==id)continue;if(e.tier==='free'){const k=e.author+e.kind;if(seen.has(k))continue;seen.add(k)}c[e.kind]=(c[e.kind]||0)+1;w+=awW(e.kind)}return{c,w}}
+function awardsOf(evs,id){const seen=new Set(),pc=new Map(),c={};let w=0;for(const e of evs){if(e.t!=='award'||e.target!==id)continue;if(e.tier==='free'){const k=e.author+e.kind;if(seen.has(k))continue;seen.add(k)}else{const n=(pc.get(e.author)||0)+1;if(n>3)continue;pc.set(e.author,n)}c[e.kind]=(c[e.kind]||0)+1;w+=awW(e.kind)}return{c,w}}
 const wilson=(u,d,z=1.2816)=>{const n=u+d;if(!n)return 0;const p=u/n;return(p+z*z/(2*n)-z*Math.sqrt((p*(1-p)+z*z/(4*n))/n))/(1+z*z/n)};
 const ctr=(u,d)=>u&&d?Math.pow(u+d,Math.min(u,d)/Math.max(u,d)):0;
 function summ(r){const ev=DB.by.get(r.id)||[],cs=ev.filter(e=>e.t==='comment'),au=new Set(cs.map(c=>c.author)),{u,d}=tally(ev,r.id),last=Math.max(r.ts,...cs.map(c=>c.ts));
  return{r,id:r.id,title:r.title,kind:r.anchor.kind,n:cs.length,p:au.size,u,d,last,hot:Math.log10(Math.max(1,cs.length+au.size*2+u-d))+(last/1000-1.7e9)/45000,ctr:ctr(u,d),aw:awardsOf(ev,r.id).c,media:cs.some(c=>c.media&&c.media.length)}}
 function detail(r,sort,key){const ev=DB.by.get(r.id)||[];
  const hid=HID(),flat=ev.filter(e=>e.t==='comment'&&!hid.o.has(e.id)&&!hid.a.has(e.author)).map(c=>{const t=tally(ev,c.id),a=awardsOf(ev,c.id);return{c,id:c.id,parent:c.parent,u:t.u,d:t.d,my:key&&t.mine.get(key.pub)?t.mine.get(key.pub).dir:0,aw:a.c,best:wilson(t.u,t.d)+Math.min(.25,.06*Math.log2(1+a.w)),ctr:ctr(t.u,t.d),ts:c.ts,kids:[]}});
- const by=new Map(flat.map(x=>[x.id,x])),tree=[];for(const x of flat){const p=x.parent&&by.get(x.parent);(p?p.kids:tree).push(x)}
+ const by=new Map(flat.map(x=>[x.id,x])),tree=[],dm=new Map(),MAXD=20;
+ const dep=x=>{const st=[];let y=x;while(y&&dm.get(y)===undefined&&st.length<=flat.length){st.push(y);y=by.get(y.parent)}let d=y&&dm.get(y)||0;while(st.length)dm.set(st.pop(),++d);return dm.get(x)};
+ for(const x of flat){let p=x.parent&&by.get(x.parent);if(p){dep(x);let k=0;while(p&&dm.get(p)>MAXD&&k++<flat.length)p=by.get(p.parent)}(p?p.kids:tree).push(x)}
  const cmp={best:(a,b)=>b.best-a.best||b.ts-a.ts,top:(a,b)=>(b.u-b.d)-(a.u-a.d)||b.ts-a.ts,new:(a,b)=>b.ts-a.ts,ctr:(a,b)=>b.ctr-a.ctr||b.ts-a.ts}[sort]||((a,b)=>b.best-a.best);
  const ord=a=>{a.sort(cmp);a.forEach(x=>ord(x.kids))};ord(tree);
  // Auffälligkeiten: fast gleiche Texte von verschiedenen Pseudonymen, oder viele Beiträge pro Minute
- const W=s=>new Set(s.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu,'').split(/\s+/).filter(Boolean));const ws=flat.map(x=>W(x.c.body));
- flat.forEach((x,i)=>{let sim=0;flat.forEach((y,j)=>{if(i!==j&&y.c.author!==x.c.author&&ws[i].size>3){let n=0;for(const w of ws[i])if(ws[j].has(w))n++;sim=Math.max(sim,n/(ws[i].size+ws[j].size-n))}});
-  const burst=flat.filter(y=>y.c.author===x.c.author&&Math.abs(y.ts-x.ts)<60001).length;x.sus=sim>=.7||burst>=4||spamText(x.c.body)||multiAuth().has(x.c.author)});
+ const W=s=>new Set(s.slice(0,600).toLowerCase().replace(/[^\p{L}\p{N}\s]/gu,'').split(/\s+/).filter(Boolean));const CAPN=300,ws=flat.map((x,i)=>i<CAPN?W(x.c.body):null),byA=new Map();for(const x of flat){(byA.get(x.c.author)||byA.set(x.c.author,[]).get(x.c.author)).push(x.ts)}
+ flat.forEach((x,i)=>{let sim=0;if(ws[i])flat.forEach((y,j)=>{if(j<CAPN&&i!==j&&y.c.author!==x.c.author&&ws[i].size>3){let n=0;for(const w of ws[i])if(ws[j].has(w))n++;sim=Math.max(sim,n/(ws[i].size+ws[j].size-n))}});
+  const burst=byA.get(x.c.author).filter(t=>Math.abs(t-x.ts)<60001).length;x.sus=sim>=.7||burst>=4||spamText(x.c.body)||multiAuth().has(x.c.author)});
  return{tree,flat}}
 
 /* ===== UI-Helfer ===== */
@@ -329,7 +342,7 @@ async function viewThread(id){const r=DB.mem.get(id);
  ${r.anchor.url?`<p class="sm mu" style="margin:0 0 8px">Seite: ${esc(r.anchor.url)}</p>`:''}
  <div class="acts" style="margin:8px 0"><span class="vote"><button class="u ${myV(r.id)>0?'on':''}" data-act="vote" data-t="${r.id}" data-d="1" aria-label="Unterhaltung gut finden">${ic('up')}</button><b>${s.u-s.d}</b><button class="d ${myV(r.id)<0?'on':''}" data-act="vote" data-t="${r.id}" data-d="-1" aria-label="Unterhaltung nicht gut finden">${ic('down')}</button></span>
  <button class="btn sm" data-act="exp" data-id="${r.id}">${ic('upload',16)}Als Datei teilen</button><button class="btn ghost sm" data-act="hide" data-id="${r.id}">${_('Unterhaltung ausblenden')}</button></div>
- ${shotB&&B64RE.test(shotB.data)?`<figure class="shotf"><img class="shotimg" data-act="shotzoom" alt="${esc(_('Screenshot der Seite'))}" src="data:${r.shot.m};base64,${shotB.data}"><figcaption class="sm mu">${_('Bild vom Ersteller. Nicht geprüft.')}</figcaption></figure>`:r.shot?`<p class="sm mu">${ic('clip',12)} ${deferM()[r.shot.hash]?_('Screenshot zurückgestellt'):_('Screenshot fehlt noch')}</p>`:''}
+ ${shotB&&B64RE.test(shotB.data)&&imgSafe(r.shot.m,shotB.data)?`<figure class="shotf"><img class="shotimg" data-act="shotzoom" alt="${esc(_('Screenshot der Seite'))}" src="data:${r.shot.m};base64,${shotB.data}"><figcaption class="sm mu">${_('Bild vom Ersteller. Nicht geprüft.')}</figcaption></figure>`:r.shot?(attPh(true,'',r.shot.size,r.shot.hash)||`<p class="sm mu">${ic('clip',12)} ${_('Screenshot fehlt noch')}</p>`):''}
  ${snapDoc(blob)?`<details class="snap"><summary>Seitenstand beim Start ansehen</summary><iframe sandbox="" title="Gespeicherter Seitenstand" srcdoc="${esc(snapDoc(blob))}"></iframe></details>`:''}
  <div class="chips" role="group" aria-label="Kommentare sortieren" style="margin-top:12px">${SORTC.map(([k,l])=>`<button class="chip" data-act="csort" data-k="${k}" aria-pressed="${k===S.csort}">${l}</button>`).join('')}<button class="chip" data-act="sus" aria-pressed="${!S.hideSus}">${S.hideSus?'Auffälliges ausgeblendet':'Auffälliges sichtbar'}</button></div>
  <div id="clist"></div><div class="dock" id="dock"></div>`;
@@ -339,10 +352,10 @@ function myV(id){const ev=DB.by.get(id)||[];const t=tally(DB.by.get(id)||[],id);
 function renderComments(r){const{tree}=detail(r,S.csort,curKey);const sum=summ(r);
  const row0=(x,l)=>{const c=x.c,mine=curKey&&c.author===curKey.pub;if(x.sus&&S.hideSus&&!(S.shown&&S.shown.has(x.id)))return`<div class="c ${l?'':'l0'} stub"><div class="cb"><span class="tag red">${_('auffällig')}</span> <span class="sm mu">${_('Verdacht auf Spam.')}</span> <button class="btn ghost sm" data-act="sus1" data-id="${x.id}">${_('Anzeigen')}</button></div>${x.kids.map(k=>row(k,l+1)).join('')}</div>`;
   const aw=Object.entries(x.aw).map(([k,n])=>`<span class="tag ${AW.premium[k]?'gold':''}">${ic('award',12)}${awL(k)} ${n}</span>`).join(' ');
-  const med=(c.media||[]).map(m=>{const b=DB.mem.get(m.h);if(!b||!B64RE.test(b.data)){const dz=deferM()[m.h];return dz?`<div class="sm mu">${ic('clip',12)} ${_('Anhang zurückgestellt ({b})',{b:fmtB(dz[0])})} <button class="btn ghost sm" data-act="pull">${_('Beim nächsten Austausch laden')}</button></div>`:`<div class="sm mu">${_('Anhang fehlt noch')}</div>`}
-   if(IMG.test(m.m))return`<img src="data:${m.m};base64,${b.data}" alt="${esc(m.n||'Bild')}" data-act="zoom" tabindex="0">`;
+  const med=(c.media||[]).map(m=>{const b=DB.mem.get(m.h);if(!b||!B64RE.test(b.data)){const ph=attPh(IMG.test(m.m),m.n,m.s,m.h);return ph||`<div class="sm mu">${_('Anhang fehlt noch')}</div>`}
+   if(IMG.test(m.m))return imgSafe(m.m,b.data)?`<img src="data:${m.m};base64,${b.data}" alt="${esc(m.n||'Bild')}" data-act="zoom" tabindex="0">`:badImg();
    if(AUD.test(m.m))return`<audio controls src="data:${m.m};base64,${b.data}"></audio>`;
-   return`<a class="lnk" download="${esc(m.n||'datei')}" href="data:application/octet-stream;base64,${b.data}">${ic('clip')}<span translate="no">${esc(m.n||'Datei')}</span> · ${Math.round((m.s||0)/1024)} KB</a>`}).join('');
+   return`<a class="lnk" download="${esc(safeName(m.n))}" href="data:application/octet-stream;base64,${b.data}" title="${esc(_('Datei von Unbekannten. Nur öffnen, wenn du dem Absender traust.'))}">${ic('clip')}<span translate="no">${esc(safeName(m.n))}</span> · ${Math.round((b.data.length*3/4)/1024)} KB</a><div class="sm mu">${_('Datei von Unbekannten. Nur öffnen, wenn du dem Absender traust.')}</div>`}).join('');
   const lk=c.url&&okUrl(c.url)?`<a class="lnk" href="${esc(c.url)}" target="_blank" rel="noopener noreferrer nofollow ugc">${ic('link')}${esc(new URL(c.url).hostname)}</a>`:'';
   const lc=c.loc&&okLoc(c.loc)?`<a class="lnk" href="https://www.openstreetmap.org/?mlat=${+c.loc.lat}&mlon=${+c.loc.lon}#map=17/${+c.loc.lat}/${+c.loc.lon}" target="_blank" rel="noopener noreferrer">${ic('pin')}Standort auf der Karte (ca. 100 m genau)</a>`:'';
   return`<div class="c ${l?'':'l0'} ${x.sus?'sus':''}"><div class="cb"><div class="who"><b>${alias(c.author)}</b>${cnTag(c)}${c.author===r.author?'<span class="tag">Starter</span>':''}${mine?'<span class="tag blue">Du</span>':''}${x.sus?'<span class="tag red">auffällig</span>':''}<span>${ago(c.ts)}</span></div>
@@ -398,7 +411,7 @@ function newSheet(step=0,data={}){
  const k=data.kind,t={page:'Webseite',place:'Ort',free:'Thema'}[k];let html=null,geo=null;
  sheet(`<div class="hd"><button class="btn ghost icon" data-a="b" aria-label="Zurück">${ic('back')}</button><h2>${t} · Neue Unterhaltung</h2><button class="btn ghost icon" data-a="x" aria-label="Schließen">${ic('x')}</button></div>
  <label class="f" for="nt">Titel</label><input type="text" id="nt" maxlength="120" placeholder="${k==='place'?'z. B. Klingel an der Haustür kaputt':k==='page'?'z. B. Stimmt diese Zahl wirklich?':'z. B. Welche Bahn nehmt ihr?'}" autocomplete="off"><div class="err" id="nterr" role="alert"></div>
- ${k==='page'?`<label class="f" for="nu">Adresse der Seite (optional)</label><input type="url" id="nu" placeholder="https://…" value="${esc(data.url||'')}"><label class="f" for="nq">Textstelle (optional)</label><textarea id="nq" rows="2" placeholder="Kopiere hier den Satz hinein, um den es geht">${esc(data.text||'')}</textarea>
+ ${k==='page'?`<label class="f" for="nu">Adresse der Seite (optional)</label><input type="text" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false" id="nu" placeholder="https://…" value="${esc(data.url||'')}"><label class="f" for="nq">Textstelle (optional)</label><textarea id="nq" rows="2" placeholder="Kopiere hier den Satz hinein, um den es geht">${esc(data.text||'')}</textarea>
   <label class="f">${_('Screenshot (optional)')}</label><div id="shot"><div class="sm mu" id="shotst" aria-live="polite"></div><img id="shotimg" class="shotimg" alt="" hidden><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="btn sm" data-a="si">${ic('image')}${_('Bild aus Datei oder Galerie')}</button><button class="btn ghost sm" data-a="sr" id="shotrm" hidden>${_('Bild entfernen')}</button></div><input type="file" accept="image/*" hidden id="sfi"></div>
   <label class="f">Seite als Datei hinzufügen (optional)</label><p class="sm mu" style="margin:0 0 6px">So bleibt der heutige Stand erhalten, auch wenn die Seite später geändert wird. Im Browser: Seite speichern unter … als „Webseite, nur HTML“.</p><button class="btn" data-a="f">${ic('file')}Datei auswählen</button> <span class="sm mu" id="nf"></span><input type="file" accept=".html,.htm,text/html" hidden id="nfi">`:''}
  ${k==='place'?`<label class="f">Wo ist das?</label><button class="btn" data-a="g">${ic('pin')}Meinen Standort verwenden</button> <span class="sm mu" id="ng">Noch kein Ort gewählt</span><p class="sm mu">Der Ort der Unterhaltung ist öffentlich und wird auf etwa 100 m gerundet. Dein eigener Standort bleibt privat.</p>`:''}
@@ -407,7 +420,7 @@ function newSheet(step=0,data={}){
  <button class="btn pri" style="width:100%;margin-top:14px;min-height:50px" data-a="go">Unterhaltung starten</button>`,d=>{
   d.onclick=async e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
    if(a==='si')return $('#sfi',d).click();
-   if(a==='sr'){shotSrc='removed';shotFor=($('#nu',d)||{value:''}).value.trim();showShot(null,'removed');say('');return}
+   if(a==='sr'){shotSrc='removed';shotFor=normUrl(($('#nu',d)||{value:''}).value);showShot(null,'removed');say('');return}
    if(a==='sv0'){Meta.set('shotSvc','off');say(_('Kein automatischer Screenshot. Du kannst selbst ein Bild anfügen.'));return}
    if(a==='sv1'){Meta.set('shotSvc','microlink');runAuto();return}
    if(a==='sv2'){say(`<input type="url" id="shu2" translate="no" placeholder="https://dienst.example/shot?url={url}"> <button class="btn sm pri" data-a="sv3">${_('Speichern')}</button>`);return}
@@ -416,14 +429,14 @@ function newSheet(step=0,data={}){
    if(a==='g'){if(!navigator.geolocation)return toast('Dein Gerät kann den Standort nicht bestimmen.');return navigator.geolocation.getCurrentPosition(p=>{geo={lat:Math.round(p.coords.latitude*1000)/1000,lon:Math.round(p.coords.longitude*1000)/1000};$('#ng',d).textContent='Ort festgelegt ✓'},()=>toast('Kein Zugriff auf den Standort. Das kannst du in den Einstellungen erlauben.'))}
    if(a==='go'){const title=$('#nt',d).value.trim();if(title.length<3){$('#nterr',d).textContent='Bitte gib einen Titel mit mindestens 3 Zeichen ein.';$('#nt',d).focus();return}
     b.disabled=true;b.textContent='Wird angelegt …';await new Promise(r=>setTimeout(r,30));
-    const anchor={kind:k==='page'?(($('#nq',d)||{value:''}).value.trim()?'passage':'page'):k};if(k==='page'){const u=$('#nu',d).value.trim();if(/^https?:\/\//.test(u))anchor.url=u;const q=$('#nq',d).value.trim();if(q)anchor.text=q.slice(0,500)}
+    const anchor={kind:k==='page'?(($('#nq',d)||{value:''}).value.trim()?'passage':'page'):k};if(k==='page'){const u=normUrl($('#nu',d).value);if(/^https?:\/\//.test(u))anchor.url=u;const q=$('#nq',d).value.trim();if(q)anchor.text=q.slice(0,500)}
     const bd=$('#nb',d).value.trim();const nsEl=$('#ns',d),sbId=nsEl&&/^[0-9a-f]{64}$/.test(nsEl.value)?nsEl.value:undefined;if(shotBusy)await Promise.race([shotBusy,new Promise(r=>setTimeout(r,4000))]);const r=await createThread({title,anchor,geo,html,sub:sbId,shot:shotData,first:bd?{body:bd,extra:{kind:'text'}}:null});
     closeSheet();markStep('comment');location.hash='#/t/'+r.id;if(!Meta.get('backupAsked'))backupHint()}};
   let shotData=null,shotSrc='',shotTimer=0,shotBusy=null,shotFor='';
   const sst=$('#shotst',d),simg=$('#shotimg',d),srm=$('#shotrm',d);
   const showShot=(b64,src)=>{shotData=b64;shotSrc=src;if(!simg)return;if(b64){simg.src='data:image/jpeg;base64,'+b64;simg.hidden=false;srm.hidden=false}else{simg.hidden=true;srm.hidden=true;simg.removeAttribute('src')}};
   const say=t=>{if(sst)sst.innerHTML=t};
-  const runAuto=async()=>{const nu=$('#nu',d);if(!nu)return;const u=nu.value.trim();if(shotSrc==='user')return;
+  const runAuto=async()=>{const nu=$('#nu',d);if(!nu)return;const u=normUrl(nu.value);if(shotSrc==='user')return;
    if(shotSrc==='removed'){if(u===shotFor)return;shotSrc=''}
    if(!publicUrl(u)){if(shotSrc==='auto')showShot(null,'');shotFor='';say('');return}
    if(u===shotFor&&shotData)return;
@@ -431,13 +444,14 @@ function newSheet(step=0,data={}){
    if(svc==='off'){say(_('Kein automatischer Screenshot. Du kannst selbst ein Bild anfügen.'));return}
    if(!svc){if(sst&&sst.querySelector('[data-a=sv1],#shu2'))return;say(`<b>${_('Automatisch einen Screenshot anfügen?')}</b> ${_('Dafür wird die Adresse der Seite an einen Screenshot-Dienst gesendet. Der Dienst sieht dann, welche Seite du besprichst.')}<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><button class="btn sm pri" data-a="sv1">${_('Ja, Microlink nutzen')}</button><button class="btn sm" data-a="sv2">${_('Eigenen Dienst eintragen')}</button><button class="btn ghost sm" data-a="sv0">${_('Nein, danke')}</button></div>`);return}
    shotFor=u;say(_('Screenshot wird erstellt …'));
-   const p=fetchShot(u).then(b=>{if(nu.value.trim()!==u||shotSrc==='user')return;showShot(b,'auto');say(_('Screenshot angefügt. Du kannst ihn entfernen.'))}).catch(()=>{if(shotSrc!=='user'&&nu.value.trim()===u){showShot(null,'');shotFor='';say(_('Der Screenshot hat nicht geklappt. Du kannst selbst ein Bild anfügen.'))}});
+   const p=fetchShot(u).then(b=>{if(normUrl(nu.value)!==u||shotSrc==='user')return;showShot(b,'auto');say(_('Screenshot angefügt. Du kannst ihn entfernen.'))}).catch(()=>{if(shotSrc!=='user'&&normUrl(nu.value)===u){showShot(null,'');shotFor='';say(_('Der Screenshot hat nicht geklappt. Du kannst selbst ein Bild anfügen.'))}});
    shotBusy=p;await p;if(shotBusy===p)shotBusy=null};
   const nuEl=$('#nu',d);if(nuEl){nuEl.addEventListener('input',()=>{clearTimeout(shotTimer);shotTimer=setTimeout(runAuto,900)});nuEl.addEventListener('change',runAuto);if(data.url)setTimeout(runAuto,300)}
   const sfi=$('#sfi',d);if(sfi)sfi.onchange=async()=>{const f=sfi.files[0];sfi.value='';if(!f)return;if(!/^image\//.test(f.type))return toast(_('Das Bild konnte nicht gelesen werden.'));try{const b=await shrink(f);if(b.length>MAXB)throw 0;showShot(b,'user');say(_('Eigenes Bild angefügt.'))}catch{toast(_('Das Bild konnte nicht gelesen werden.'))}};
   const fi=$('#nfi',d);if(fi)fi.onchange=async()=>{const f=fi.files[0];if(!f)return;if(f.size>MAXB)return toast('Die Datei ist zu groß. Bis 1,5 MB geht.');html=cleanHtml(await f.text());$('#nf',d).textContent=f.name+' ✓'};
   const ns=$('#ns',d);if(ns){const showR=()=>{const sb=DB.mem.get(ns.value);$('#nsr',d).innerHTML=sb&&sb.t==='sub'?`<details open class="sm" style="margin:6px 0"><summary>Regeln dieses Themenbereichs</summary><p class="mu" translate="no" style="white-space:pre-wrap">${esc(sb.rules)}</p><p class="mu">Mit dem Start akzeptierst du diese Regeln.</p></details>`:''};ns.onchange=showR;showR()}
   $('#nt',d).focus()})}
+function normUrl(v){v=String(v||'').trim();if(!v||/\s/.test(v)||/^[a-z][a-z0-9+.-]*:/i.test(v)&&!/^[^/]+:\d+(\/|$)/.test(v))return v;if(v.startsWith('//'))return 'https:'+v;return /^[^/?#]+\.[^/?#.]{2,}(:\d+)?([/?#]|$)/.test(v)?'https://'+v:v}
 function publicUrl(u){try{const x=new URL(u);if(!/^https?:$/.test(x.protocol))return false;const h=x.hostname.toLowerCase();if(h==='localhost'||h.includes(':')||h.startsWith('[')||!h.includes('.'))return false;if(/\.(local|internal|lan|home|localdomain|intranet)$/.test(h))return false;if(/^(0\.|10\.|127\.|169\.254\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(h))return false;return true}catch{return false}}
 async function fetchShot(url){const svc=Meta.get('shotSvc',''),tpl=Meta.get('shotUrl','');let api='';
  if(svc==='microlink')api='https://api.microlink.io/?url='+encodeURIComponent(url)+'&screenshot=true&meta=false&viewport.width=1100&viewport.height=700&type=jpeg';
@@ -467,7 +481,7 @@ function merkleRoot(){let L=roots().map(r=>r.id).sort();if(!L.length)return sha(
 /* ===== Export / Import als HTML-Datei ===== */
 function threadObjects(id){const r=DB.mem.get(id),ev=DB.by.get(id)||[],bl=new Set();if(r.snap)bl.add(r.snap.hash);if(r.shot)bl.add(r.shot.hash);for(const e of ev)for(const m of e.media||[])bl.add(m.h);return[r,...[...bl].map(h=>DB.mem.get(h)).filter(Boolean),...ev]}
 function exportHtml(id){const r=DB.mem.get(id),objs=threadObjects(id),{tree}=detail(r,'best',null),blob=r.snap&&DB.mem.get(r.snap.hash);
- const row=(x,l)=>{const c=x.c;const med=(c.media||[]).map(m=>{const b=DB.mem.get(m.h);if(!b||!B64RE.test(b.data))return'';if(IMG.test(m.m))return`<img src="data:${m.m};base64,${b.data}" alt="${esc(m.n||'')}" style="max-width:100%;border-radius:8px">`;if(AUD.test(m.m))return`<audio controls src="data:${m.m};base64,${b.data}"></audio>`;return`<a download="${esc(m.n||'datei')}" href="data:application/octet-stream;base64,${b.data}">${esc(m.n||'Datei')}</a>`}).join('');
+ const row=(x,l)=>{const c=x.c;const med=(c.media||[]).map(m=>{const b=DB.mem.get(m.h);if(!b||!B64RE.test(b.data))return'';if(IMG.test(m.m))return imgSafe(m.m,b.data)?`<img src="data:${m.m};base64,${b.data}" alt="${esc(m.n||'')}" style="max-width:100%;border-radius:8px">`:'';if(AUD.test(m.m))return`<audio controls src="data:${m.m};base64,${b.data}"></audio>`;return`<a download="${esc(m.n||'datei')}" href="data:application/octet-stream;base64,${b.data}">${esc(m.n||'Datei')}</a>`}).join('');
   return`<li><b>${esc(alias(c.author))}</b> <small>▲${x.u-x.d} · ${new Date(c.ts).toLocaleString(LOC())}</small><br>${esc(c.body)}<br>${med}${c.url&&okUrl(c.url)?`<a href="${esc(c.url)}" rel="noopener noreferrer nofollow">${esc(c.url)}</a>`:''}${x.kids.length?'<ul>'+x.kids.map(k=>row(k,l+1)).join('')+'</ul>':''}</li>`};
  return`<!doctype html><html lang="${LANG}"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; media-src data:; frame-src about:"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(r.title)} · Outernet</title><style>body{font:16px/1.55 system-ui,sans-serif;max-width:42em;margin:2em auto;padding:0 1em;color:#101614}ul{padding-left:1.1em}li{margin:.8em 0}iframe{width:100%;height:260px;border:1px solid #ccc;border-radius:8px}.n{background:#eef6f4;border-radius:12px;padding:12px;font-size:.9rem}@media(prefers-color-scheme:dark){body{background:#0d1210;color:#eaf0ed}.n{background:#133a35}a{color:#7fd}}</style></head><body>
 <p class="n"><b>${_('Outernet-Unterhaltung.')}</b> ${_('Du kannst diese Datei einfach lesen. Zum Mitmachen öffne sie über „Teilen → Datei öffnen“ in der Outernet-App (app.html). Alle Beiträge sind signiert und lassen sich prüfen.')}</p>
@@ -545,15 +559,19 @@ const CS=typeof CompressionStream!=='undefined'&&typeof DecompressionStream!=='u
 async function pipeZ(u8,S,mode){const st=new Blob([u8]).stream().pipeThrough(new S(mode));return new Uint8Array(await new Response(st).arrayBuffer())}
 const pack=async o=>{const u=new TextEncoder().encode(JSON.stringify(o));return CS?{z:1,u:await pipeZ(u,CompressionStream,'deflate-raw')}:{z:0,u}};
 const unpack=async(u,z)=>{if(z&&!CS)throw 0;return JSON.parse(new TextDecoder().decode(z?await pipeZ(u,DecompressionStream,'deflate-raw'):u))};
-const CHUNK=500,MAXF=300;
+const CHUNK=500,MAXF=300,MAXF_ALL=8000;
 const FRG=380,QBLOB=120000;
 /* ===== Datenmenge: Anhänge begrenzen und zurückstellen ===== */
 const deferM=()=>{const d=Meta.get('defer',{});return d&&typeof d==='object'&&!Array.isArray(d)?d:{}};
 const capB=()=>(+Meta.get('cap',0)||0)*1e6,SMALL=3e5;
-function attOk(sz,used){if(Meta.get('pull',0))return true;const p=Meta.get('att','all');if(p==='none')return false;if(p==='small'&&sz>SMALL)return false;const c=capB();return!(c&&used+sz>c)}
+let QRALL=false;
+function attOk(sz,used,qr){if(qr&&QRALL)return true;if(Meta.get('pull',0))return true;const p=Meta.get('att','all');if(p==='none')return false;if(p==='small'&&sz>SMALL)return false;const c=capB();return!(c&&used+sz>c)}
 function deferAdd(id,sz,via){const d=deferM();if(!d[id]&&Object.keys(d).length>=500)return;d[id]=[sz|0,Date.now(),via];Meta.set('defer',d)}
 function deferDel(id){const d=deferM();if(d[id]){delete d[id];Meta.set('defer',d)}}
 const fmtB=n=>n<1e5?Math.round(n/1e3)+' KB':(n/1e6).toFixed(1)+' MB';
+function attPh(img,name,sz,h){const none=Meta.get('att','all')==='none',dz=deferM()[h];if(!none&&!dz)return'';
+ const sw=sz||(dz&&dz[0])||0,what=img?_('Bild'):_('Datei');
+ return`<div class="attph${img?' img':''}" role="group" aria-label="${esc(_('Platzhalter'))}">${ic('clip',img?28:16)}<div><b>${what}${name&&!img?' · <span translate="no">'+esc(name)+'</span>':''}${sw?' · '+fmtB(sw):''}</b><div class="sm mu">${none?_('Du empfängst gerade keine Bilder und Dateien. Das bleibt so, bis du es änderst.'):(Meta.get('pull',0)?_('Beim nächsten Austausch werden die Anhänge geladen.'):_('Zurückgestellt. Sie liegt bei anderen Nutzern und kann später geladen werden.'))}</div>${none?`<button class="btn sm" data-act="attall">${_('Bilder und Dateien wieder empfangen')}</button>`:(Meta.get('pull',0)?'':`<button class="btn sm" data-act="pull">${_('Beim nächsten Austausch laden')}</button>`)}</div></div>`}
 function deferInfo(){const d=deferM(),own=new Map();for(const o of DB.mem.values()){const t=o.t==='root'?o.id:o.thread;if(o.snap)own.set(o.snap.hash,t);if(o.shot)own.set(o.shot.hash,t);for(const m of o.media||[])own.set(m.h,t)}
  let n=0,b=0;const th=new Map();for(const[id,v]of Object.entries(d)){if(DB.mem.has(id)){deferDel(id);continue}n++;b+=v[0]||0;const t=own.get(id);if(t){const z=th.get(t)||[0,0];z[0]++;z[1]+=v[0]||0;th.set(t,z)}}
  return{n,b,th}}
@@ -576,7 +594,7 @@ const newSess=(via,sid,tot)=>({sid,via,t0:Date.now(),t1:Date.now(),tot:tot||0,ha
 const gapMap=()=>{const g=Meta.get('gap',{});return g&&typeof g==='object'&&!Array.isArray(g)?g:{}};
 const gapOf=id=>gapMap()[String(id).slice(0,8)]||0;
 async function takeFrag(f,ix,allow){
- if(!f||typeof f.k!=='string'||!H64.test(f.k)||!Number.isInteger(f.i)||!Number.isInteger(f.n)||f.n<1||f.n>400||f.i<0||f.i>=f.n||typeof f.d!=='string'||f.d.length>13000)return 0;
+ if(!f||typeof f.k!=='string'||!H64.test(f.k)||!Number.isInteger(f.i)||!Number.isInteger(f.n)||f.n<1||f.n>7700||f.i<0||f.i>=f.n||typeof f.d!=='string'||f.d.length>13000)return 0;
  if(DB.mem.has(f.k)||(allow&&!allow(f.k)))return 0;
  if((ix.bytes+=f.d.length)>LIM.bytes){ix.why='gross';return 0}
  let r=await DB.pget(f.k);if(!r||r.n!==f.n||r.b!==(f.b?1:0)){if(!r&&(await DB.pkeys()).size>=100)return 0;r={id:f.k,n:f.n,b:f.b?1:0,p:{},ts:Date.now()}}
@@ -585,14 +603,14 @@ async function takeFrag(f,ix,allow){
  await DB.pdel(f.k);let obj;try{obj=r.b?{t:'blob',id:f.k,data:s}:JSON.parse(s)}catch{ix.bad++;return 0}
  if(!obj||obj.id!==f.k){ix.bad++;return 0}
  await importObjs([obj],ix);return{done:true}}
-async function makeStream(){const list=orderedObjs(),z=CS?1:0,BUD=560,enc=async a=>B64.enc((await pack(a)).u),pk=[];let cur=[],skipped=0;
+async function makeStream(){const list=orderedObjs(),z=CS?1:0,BUD=560,QB=QRALL?1e9:QBLOB,MF=QRALL?MAXF_ALL:MAXF,enc=async a=>B64.enc((await pack(a)).u),pk=[];let cur=[],skipped=0;
  const flush=()=>{if(cur.length){pk.push({o:cur});cur=[]}};
- for(const o of list){const js=o.t==='blob'?o.data:JSON.stringify(o);if(o.t==='blob'&&js.length>QBLOB){skipped++;continue}
+ for(const o of list){const js=o.t==='blob'?o.data:JSON.stringify(o);if(o.t==='blob'&&js.length>QB){skipped++;continue}
   const frag=()=>{flush();const n=Math.ceil(js.length/FRG);for(let i=0;i<n;i++)pk.push({k:o.id,i,n,b:o.t==='blob'?1:0,d:js.slice(i*FRG,(i+1)*FRG)})};
   if(o.t==='blob'||js.length>900){frag();continue}
   const t=[...cur,o];if((await enc({o:t})).length<=BUD){cur=t;continue}
   flush();if((await enc({o:[o]})).length<=BUD)cur=[o];else frag()}
- flush();if(!pk.length)pk.push({o:[]});const cut=Math.max(0,pk.length-MAXF),use=pk.slice(0,MAXF),sid=B64.enc(unhex(sha(list.map(o=>o.id).join(','))).slice(0,6)),frames=[];
+ flush();if(!pk.length)pk.push({o:[]});const cut=Math.max(0,pk.length-MF),use=pk.slice(0,MF),sid=B64.enc(unhex(sha(list.map(o=>o.id).join(','))).slice(0,6)),frames=[];
  for(let i=0;i<use.length;i++)frames.push(`RN2|${sid}|${i}|${use.length}|${z}|${await enc(use[i])}`);
  return{frames,skipped,cut,count:list.length,sid}}
 function drawQR(cv,text,px){const q=qrcode(0,'L');q.addData(text,'Byte');q.make();const n=q.getModuleCount(),sc=Math.max(2,Math.floor(px/(n+8))),z=(n+8)*sc;cv.width=cv.height=z;const c=cv.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,z,z);c.fillStyle='#000';for(let r=0;r<n;r++)for(let k=0;k<n;k++)if(q.isDark(r,k))c.fillRect((k+4)*sc,(r+4)*sc,sc,sc)}
@@ -613,13 +631,13 @@ async function importObjs(objs,ix=intake()){const rk={sub:0,root:1,blob:2,commen
 const abuseMsg=why=>why==='ungueltig'?_('Austausch abgebrochen: Die andere Seite hat zu viel Ungültiges gesendet.'):_('Austausch abgebrochen: Die andere Seite hat zu viel auf einmal gesendet.');
 const RX={sid:null,n:0,z:0,parts:new Map()},RXW={sid:null,n:0,z:0,parts:new Map()},RXS=new Map();
 async function rxFrame(text,ui){const p=text.split('|');if(p.length<6)return{kind:'bad'};const sid=p[1],ii=+p[2],nn=+p[3],z=+p[4],data=p.slice(5).join('|');
- if(!/^[A-Za-z0-9_-]{4,16}$/.test(sid)||!(nn>=1&&nn<=1000&&ii>=0&&ii<nn)||data.length>2400)return{kind:'bad'};
+ if(!/^[A-Za-z0-9_-]{4,16}$/.test(sid)||!(nn>=1&&nn<=10000&&ii>=0&&ii<nn)||data.length>2400)return{kind:'bad'};
  let q=RXS.get(sid);if(!q){const old=ledGet(sid),sess=old&&old.via==='qr'&&old.tot===nn?old:newSess('qr',sid,nn);q={ix:intake(),sess,got:new Set(sess.got||[]),skip:new Set(),dec:new Map(),used:0};RXS.set(sid,q)}
  if(q.sess.tot!==nn)return{kind:'bad'};
  if(q.got.has(ii)||q.skip.has(ii)){ui&&ui(q.got.size+q.skip.size,nn,q.sess.new);return{kind:'dup'}}
  let pk;try{pk=await unpack(B64.dec(data),z)}catch{return{kind:'bad'}}
  if(pk&&Array.isArray(pk.o))await importObjs(pk.o.slice(0,40),q.ix);
- else if(pk&&typeof pk.k==='string'){if(pk.b&&H64.test(pk.k)&&!DB.mem.has(pk.k)){let ok=q.dec.get(pk.k);if(ok===undefined){const sz=(pk.n||1)*FRG;ok=attOk(sz,q.used);q.dec.set(pk.k,ok);if(ok)q.used+=sz;else{deferAdd(pk.k,sz,'qr');q.sess.sk=(q.sess.sk||0)+1}}if(!ok){q.skip.add(ii);const s3=q.sess;s3.have=q.got.size;ledPut(s3);ui&&ui(q.got.size+q.skip.size,nn,s3.new);if(q.got.size+q.skip.size===nn){RXS.delete(sid);s3.state='done';ledPut(s3);earn(q.ix.n);return{kind:'data',n:q.ix.n,t:q.ix.t,bad:q.ix.bad}}return{kind:'frame',got:q.got.size,n:nn}}}await takeFrag(pk,q.ix)}
+ else if(pk&&typeof pk.k==='string'){if(pk.b&&H64.test(pk.k)&&!DB.mem.has(pk.k)){let ok=q.dec.get(pk.k);if(ok===undefined){const sz=(pk.n||1)*FRG;ok=attOk(sz,q.used,true);q.dec.set(pk.k,ok);if(ok)q.used+=sz;else{deferAdd(pk.k,sz,'qr');q.sess.sk=(q.sess.sk||0)+1}}if(!ok){q.skip.add(ii);const s3=q.sess;s3.have=q.got.size;ledPut(s3);ui&&ui(q.got.size+q.skip.size,nn,s3.new);if(q.got.size+q.skip.size===nn){RXS.delete(sid);s3.state='done';ledPut(s3);earn(q.ix.n);return{kind:'data',n:q.ix.n,t:q.ix.t,bad:q.ix.bad}}return{kind:'frame',got:q.got.size,n:nn}}}await takeFrag(pk,q.ix)}
  else return{kind:'bad'};
  q.got.add(ii);const s2=q.sess;s2.got=[...q.got];s2.have=q.got.size;s2.new=(s2.new||0)+0;s2.new=Math.max(s2.new,q.ix.n);s2.state=q.got.size===nn?'done':'open';ledPut(s2);
  ui&&ui(q.got.size,nn,s2.new);
@@ -629,7 +647,7 @@ function qrInterrupted(){let n=0,any=false;for(const[sid,q]of RXS){if(q.got.size
 async function handleCode(text,ui){
  if(text.startsWith('RN2|'))return rxFrame(text,ui);
  if(text.startsWith('RN1|')){const p=text.split('|');if(p.length<6)return{kind:'bad'};const sid=p[1],ii=+p[2],nn=+p[3],z=+p[4],data=p.slice(5).join('|');
-  if(!(nn>=1&&nn<=5000&&ii>=0&&ii<nn))return{kind:'bad'};
+  if(!(nn>=1&&nn<=10000&&ii>=0&&ii<nn))return{kind:'bad'};
   if(RX.sid!==sid){RX.sid=sid;RX.n=nn;RX.z=z;RX.parts=new Map()}
   if(!RX.parts.has(ii)){RX.parts.set(ii,data);ui&&ui(RX.parts.size,RX.n)}
   if(RX.parts.size===RX.n){const enc=[...Array(RX.n).keys()].map(k=>RX.parts.get(k)).join(''),zz=RX.z;RX.sid=null;RX.parts=new Map();
@@ -660,8 +678,9 @@ function connectSheet(mode){const both=mode==='both';let stream=null,timer=null,
  <p class="sm mu" style="margin:6px 0 0">${_('Jedes Bild enthält fertige Beiträge. Bricht es ab, bleibt das Empfangene erhalten und geht später weiter.')}</p><div class="seg" role="group" aria-label="${_('Geschwindigkeit')}" style="margin-top:8px"><button data-a="slow">${_('Langsamer')}</button><button data-a="fast">${_('Schneller')}</button></div></div>`:''}
  <div class="card"><div class="sm"><b>${both?_('2. Die Frontkamera liest den Code des anderen'):_('Kamera')}</b></div><div class="vidw"><video id="qv" playsinline muted></video></div><div class="bar"><i id="qp" style="width:0%"></i></div><div class="sm mu" id="qvi" role="status"></div>
  <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="btn" data-a="cam">${_('Kamera starten')}</button><button class="btn ghost" data-a="flip">${_('Kamera wechseln')}</button><button class="btn ghost" data-a="img">${_('Foto eines Codes wählen')}</button><input type="file" id="qf" accept="image/*" hidden></div></div>
+ ${(Meta.get('att','all')!=='all'||capB())?`<div class="card"><label class="switch"><input type="checkbox" id="qall"><span><b>${_('Bilder und Dateien trotzdem per QR übertragen')}</b><br><span class="sm mu">${_('Deine Einstellung begrenzt Anhänge. Hier hebst du das nur für diesen Austausch auf.')}</span></span></label><p class="sm" id="qallw" role="alert" hidden style="margin:8px 0 0;color:var(--wn,#b45309)"><b>${_('Achtung: Das dauert sehr lange.')}</b> ${_('Per QR-Code ist die Übertragung langsam. Ein Bild von 1 MB braucht etwa 10 Minuten, größere Dateien entsprechend länger. Beide Handys müssen die ganze Zeit ruhig aufeinander gerichtet bleiben. Per WLAN oder Datei geht es viel schneller.')}</p></div>`:''}
  <p class="mu sm">${_('Beim Verbinden werden nur öffentliche Beiträge ausgetauscht. Dein Sicherungs-Code bleibt privat.')}</p><button class="btn pri" data-a="x" style="width:100%">${_('Fertig')}</button>`,d=>{
-  vid=$('#qv',d);const cleanup=()=>{stopped=true;clearTimeout(timer);if(stream)stream.getTracks().forEach(t=>t.stop());vid.srcObject=null};const onclose=()=>{if(d.open)return;d.removeEventListener('close',onclose);cleanup();qrInterrupted()};d.addEventListener('close',onclose);
+  vid=$('#qv',d);const cleanup=()=>{stopped=true;clearTimeout(timer);if(stream)stream.getTracks().forEach(t=>t.stop());vid.srcObject=null};const onclose=()=>{if(d.open)return;d.removeEventListener('close',onclose);cleanup();QRALL=false;qrInterrupted()};d.addEventListener('close',onclose);
   const info=t=>{$('#qvi',d).textContent=t};
   const onCode=async text=>{const r=await handleCode(text,(a,n,k)=>{$('#qp',d).style.width=(100*a/n)+'%';info(k?_('Empfangen: {a} von {n} · {k} neue Beiträge',{a,n,k}):_('Empfangen: {a} von {n}',{a,n}));navigator.vibrate&&navigator.vibrate(8);const an=$('.sa',d);if(an)an.dataset.s='transfer'});
    if(!r)return false;if(r.kind==='bad'){info(_('Dieser Code ist ungültig.'));return false}
@@ -671,7 +690,9 @@ function connectSheet(mode){const both=mode==='both';let stream=null,timer=null,
   const cv=document.createElement('canvas'),cx=cv.getContext('2d',{willReadFrequently:true});
   const startCam=async()=>{if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){info(_('Keine Kamera verfügbar. Nutze stattdessen eine Datei oder das Netzwerk.'));return}
    try{info(_('Kamera wird gestartet …'));if(stream)stream.getTracks().forEach(t=>t.stop());stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:facing},width:{ideal:1280}},audio:false});vid.srcObject=stream;vid.classList.toggle('front',facing==='user');await vid.play();info(facing==='user'?_('Frontkamera aktiv. Sie liest den Code der anderen Person.'):_('Rückkamera aktiv. Halte sie auf den Code.'));clearTimeout(timer);tick()}catch{info(_('Kein Zugriff auf die Kamera. Das kannst du in den Einstellungen erlauben.'))}};
-  if(both)(async()=>{fr=await makeStream();const qs=$('#qs',d),qi=$('#qsi',d);const show=()=>{if(stopped||!qs.isConnected)return;drawQR(qs,fr.frames[idx],340);qi.textContent=_('Bild {a} von {n}',{a:idx+1,n:fr.frames.length})+(fr.skipped?' · '+_('{k} große Anhänge sind nicht dabei. Sie kommen per Datei oder Netzwerk.',{k:fr.skipped}):'')+(fr.cut?' · '+_('{k} Bilder passen nicht mehr in den Strom. Der Rest kommt per Netzwerk.',{k:fr.cut}):'');idx=(idx+1)%fr.frames.length;setTimeout(show,1000/fps)};show()})();
+  const rebuild=async()=>{fr=await makeStream();idx=0};
+  const qall=$('#qall',d);if(qall)qall.onchange=async()=>{QRALL=qall.checked;$('#qallw',d).hidden=!QRALL;if(QRALL){for(const q of RXS.values()){for(const[k,v]of q.dec)if(!v)deferDel(k);q.dec.clear();q.skip.clear();q.sess.sk=0}}if(both&&fr)await rebuild()};
+  if(both)(async()=>{await rebuild();const qs=$('#qs',d),qi=$('#qsi',d);const show=()=>{if(stopped||!qs.isConnected)return;drawQR(qs,fr.frames[idx],340);qi.textContent=_('Bild {a} von {n}',{a:idx+1,n:fr.frames.length})+(fr.skipped?' · '+_('{k} große Anhänge sind nicht dabei. Sie kommen per Datei oder Netzwerk.',{k:fr.skipped}):'')+(fr.cut?' · '+_('{k} Bilder passen nicht mehr in den Strom. Der Rest kommt per Netzwerk.',{k:fr.cut}):'');idx=(idx+1)%fr.frames.length;setTimeout(show,1000/fps)};show()})();
   d.onclick=async e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;if(a==='x')closeSheet();else if(a==='slow')fps=Math.max(1,fps-1.5);else if(a==='fast')fps=Math.min(10,fps+1.5);else if(a==='cam')startCam();else if(a==='flip'){facing=facing==='user'?'environment':'user';startCam()}else if(a==='img')$('#qf',d).click()};
   $('#qf',d).onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const bm=await createImageBitmap(f);cv.width=bm.width;cv.height=bm.height;cx.drawImage(bm,0,0);const c=jsQR(cx.getImageData(0,0,cv.width,cv.height).data,cv.width,cv.height);if(!(c&&c.data&&await onCode(c.data)))info(_('Kein QR-Code im Bild gefunden.'))}catch{info(_('Kein QR-Code im Bild gefunden.'))}};
   startCam()})}
@@ -992,18 +1013,25 @@ async function seed(prog=()=>{}){if(Meta.get('seeded'))return;Meta.set('seeded',
  const art1='<h2>Stadtrat beschließt neue Radwege</h2><p>Der Stadtrat hat mit knapper Mehrheit zwölf neue Radwege beschlossen. Die Kosten liegen bei 18 Millionen Euro.</p><p>Anwohner kritisieren, dass dafür rund 400 Parkplätze wegfallen.</p>';
  const sbV=await createSub({name:'Stadt & Verkehr',desc:'Alles rund um Wege, Bahnen, Parkplätze und Baustellen in unserer Stadt. Fragen, Erfahrungen und Ideen sind willkommen.',rules:'Bleibt freundlich und sachlich. Keine persönlichen Angriffe, keine Werbung, keine privaten Daten anderer Menschen.',m:U(),ts:N-60*H});
  await createSub({name:'Nachbarschaft',desc:'Für kleine Fragen und Hilfe im Haus und in der Straße: Wer leiht eine Leiter, wo ist der nächste Flohmarkt?',rules:'Respektiert die Privatsphäre. Nennt keine Namen oder Adressen. Hilfe anbieten ist besser als meckern.',m:U(),ts:N-50*H});
- const t1=await createThread({sub:sbV.id,title:'Radwege: 400 Parkplätze weg – okay?',anchor:{kind:'passage',url:'https://beispiel.example/radwege',text:'Anwohner kritisieren, dass dafür rund 400 Parkplätze wegfallen.'},html:'<!doctype html><meta charset=utf-8>'+art1,m:U(),ts:N-5*H});
+ const exImg=(w,h,txt,hue)=>{const cv=document.createElement('canvas');cv.width=w;cv.height=h;const x=cv.getContext('2d'),g=x.createLinearGradient(0,0,w,h);g.addColorStop(0,`hsl(${hue},70%,62%)`);g.addColorStop(1,`hsl(${hue+50},75%,45%)`);x.fillStyle=g;x.fillRect(0,0,w,h);x.fillStyle='rgba(255,255,255,.9)';x.font=`bold ${h/9|0}px sans-serif`;x.textAlign='center';x.fillText(txt,w/2,h/2);return cv.toDataURL('image/jpeg',.7).split(',')[1]};
+ const exOut=d=>{const a=Meta.get('att','all');return a==='none'||(a==='small'&&d.length>SMALL)};
+ const exMedia=async(d,m,n)=>{const h=sha(d),out=exOut(d);if(out)deferAdd(h,d.length,'seed');return{media:[{h,m,n,s:d.length}],blobs:out?[]:[{t:'blob',id:h,data:d}]}};
+ const shotD=exImg(640,400,'Beispiel: Radweg-Plan',210);
+ const t1=await createThread({sub:sbV.id,title:'Radwege: 400 Parkplätze weg – okay?',anchor:{kind:'passage',url:'https://beispiel.example/radwege',text:'Anwohner kritisieren, dass dafür rund 400 Parkplätze wegfallen.'},html:'<!doctype html><meta charset=utf-8>'+art1,m:U(),ts:N-5*H,shot:shotD});
+ if(exOut(shotD)){await DB.del(sha(shotD));deferAdd(sha(shotD),shotD.length,'seed')}
  const t2=await createThread({title:'Klingel an der Haustür Kastanienallee 12 kaputt?',anchor:{kind:'place'},geo:{lat:52.540,lon:13.424},m:U(),ts:N-40*H});
  const t3=await createThread({sub:sbV.id,title:'Welche Bahn nehmt ihr zum Hauptbahnhof?',anchor:{kind:'free'},m:U(),ts:N-2*H});
  const V=[...Array(14)].map(U);
- const say1=async(t,m,txt,par,age,up,dn,aw=[])=>{const c=await postComment(t.id,txt,par,{kind:'text',cn:CNS.get(m)},m,N-age*60000);tick();for(let i=0;i<up;i++)await postVote(t.id,c.id,1,V[i],N-age*60000+i*1000);for(let i=0;i<dn;i++)await postVote(t.id,c.id,-1,V[13-i],N-age*60000+i*1000);for(const k of aw)await postAward(t.id,c.id,k,undefined,V[aw.indexOf(k)],N-age*60000+5000);tick();return c};
+ const say1=async(t,m,txt,par,age,up,dn,aw=[],x={})=>{const c=await postComment(t.id,txt,par,{kind:'text',cn:CNS.get(m),...x},m,N-age*60000);tick();for(let i=0;i<up;i++)await postVote(t.id,c.id,1,V[i],N-age*60000+i*1000);for(let i=0;i<dn;i++)await postVote(t.id,c.id,-1,V[13-i],N-age*60000+i*1000);for(const k of aw)await postAward(t.id,c.id,k,undefined,V[aw.indexOf(k)],N-age*60000+5000);tick();return c};
  const a=U(),b=U(),c=U(),d=U(),e=U();const CNS=new Map([[a,10],[b,200],[c,0],[d,3],[e,40]]);
  const c1=await say1(t1,a,'Ohne Parkplätze sterben die kleinen Läden aus, das zeigen andere Städte.',null,290,5,3);
  await say1(t1,b,'In Kopenhagen stieg der Umsatz nach dem Umbau. Studien gibt es genug.',c1.id,270,12,0,['hilfreich','gold']);
  await say1(t1,c,'Parkhäuser am Stadtrand sind für Rollstuhlfahrer keine Lösung.',null,200,9,1,['klug']);
+ await say1(t1,e,'So sieht die Straße heute aus, hier sollen die Parkplätze weg.',null,180,4,0,[],await exMedia(exImg(800,500,'Beispiel-Foto: Straße',140),'image/jpeg','strasse.jpg'));
  await say1(t1,d,'Erster!!! lol',null,250,0,6);
  await say1(t2,e,'Bei uns im 3. Stock klingelt auch nichts. Die Hausverwaltung weiß Bescheid.',null,2300,6,0,['danke']);
  await say1(t3,a,'Die 12 ist am schnellsten, aber oft voll.',null,100,8,7);
+ await say1(t3,b,'Hier ist der aktuelle Fahrplan als Datei.',null,60,3,0,[],await exMedia(btoa('Beispiel-Fahrplan Linie 12\n'.repeat(900)),'application/pdf','fahrplan.pdf'));
  await say1(t3,b,'Ich nehme immer das Rad, geht schneller.',null,90,7,8,['lustig']);prog(1)}
 
 /* ===== Klicks ===== */
@@ -1023,6 +1051,7 @@ document.addEventListener('click',async e=>{const b=e.target.closest('[data-act]
  else if(a==='chkapp')$('#chkf').click();
  else if(a==='clrlog'){Meta.set('rxlog',[]);viewMe()}
  else if(a==='att'||a==='cap'||a==='imgq'){Meta.set(a,a==='cap'?+b.dataset.k:b.dataset.k);viewMe()}
+ else if(a==='attall'){Meta.set('att','all');toast(_('Beim nächsten Austausch werden die Anhänge geladen.'));route()}
  else if(a==='pull'){Meta.set('pull',1);viewMe();toast(_('Beim nächsten Austausch werden die Anhänge geladen.'))}
  else if(a==='shotsvc'){Meta.set('shotSvc',b.dataset.k);viewMe()}
  else if(a==='shoturl'){const v=($('#shu')||{value:''}).value.trim();if(!/^https?:\/\/.*\{url\}/.test(v))return toast(_('Die Adresse muss {url} enthalten.'));Meta.set('shotUrl',v);toast(_('Gespeichert'))}

@@ -4,7 +4,7 @@ Optional: CHROME=/pfad/zu/chrome. Schnelltest ohne Übersetzungsprüfung: python
 import subprocess, sys, os, time, re, pathlib
 here = pathlib.Path(__file__).resolve().parent
 env = dict(os.environ)
-tests = ['test_app', 'test_security', 'test_qr', 'test_resume', 'test_attachments', 'test_wlan_codes', 'test_nearby', 'test_subs', 'test_ux', 'test_plugin', 'test_screenshot']
+tests = ['test_app', 'test_security', 'test_qr', 'test_resume', 'test_attachments', 'test_qrall', 'test_placeholder', 'test_hardening', 'test_seed_ph', 'test_wlan_codes', 'test_nearby', 'test_subs', 'test_ux', 'test_plugin', 'test_screenshot']
 if '--fast' not in sys.argv: tests.append('test_i18n')
 relay = subprocess.Popen(['node', str(here.parent / 'relay' / 'server.js')], env={**env, 'PORT': '8799'}, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 time.sleep(1.2); bad = []

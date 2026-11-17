@@ -55,3 +55,7 @@ Es gilt `CODE_OF_CONDUCT.md`.
 ## English summary
 
 Source lives in `src/`; run `python3 tools/build.py` to produce the single-file app `web/app.html` (committed). Tests: `pip install playwright && playwright install chromium && python3 tests/run_all.py --fast`. Rules: no mandatory server, no runtime network loads, treat all foreign data as hostile (validate everything), no payments or tracking, every UI string needs five translations in `src/i18n/tr.json`. Report vulnerabilities privately (see `SECURITY.md`).
+
+## Sicherheitsregel für Änderungen
+
+Jede Änderung, die Daten von außen annimmt oder anzeigt, braucht drei Dinge: eine Prüfung in `validate()` oder beim Anzeigen (Typ, Länge, Muster, Grenzen), Ausgabe nur über `esc()` und einen Test in `tests/test_hardening.py` oder `tests/test_security.py`. Prüfungen nur beim Absender zählen nicht. Siehe `docs/SECURITY.md`, Abschnitt "Umgebaute Clients (Forks)".

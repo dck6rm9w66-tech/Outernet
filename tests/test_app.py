@@ -28,7 +28,7 @@ with sync_playwright() as p:
     pg.click('#clist .vote button.u >> nth=1'); 
     pg.wait_for_timeout(1200)
     pg.fill('#ct','Das ist mein Test-Kommentar'); pg.set_input_files('[data-f=img]',OUT+'/t.png'); pg.click('[data-t=send]')
-    pg.wait_for_function("document.querySelectorAll('#clist .cb').length>=5")
+    pg.wait_for_function("document.querySelector('#clist').innerText.includes('Test-Kommentar')")
     print('img shown',pg.locator('#clist .media img').count())
     # Datenschutz-Warnung
     pg.fill('#ct','Ruf mich an: 0171 1234567'); pg.click('[data-t=send]'); pg.wait_for_selector('dialog[open]'); print('warn:',pg.inner_text('dialog h2')); pg.click('[data-a=n]')
